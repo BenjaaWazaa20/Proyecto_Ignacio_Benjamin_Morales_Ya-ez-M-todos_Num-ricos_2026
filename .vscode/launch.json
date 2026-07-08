@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "MetodosnumericosApplication",
+            "request": "launch",
+            "mainClass": "mx.edu.itses.ibmy.metodosnumericos.MetodosnumericosApplication",
+            "projectName": "metodosnumericos"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MetodosnumericosApplication<metodosnumericos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "mx.edu.itses.aflda.metodosnumericos.MetodosnumericosApplication",
+            "projectName": "metodosnumericos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

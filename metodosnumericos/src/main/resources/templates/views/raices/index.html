@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Raices de Ecuaciones', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <h2 class="mb-3">Unidad II.- Raices de Ecuaciones</h2>
+            <p class="lead">Cálculo de raíces para funciones de polinomios, exponenciales utilizando distintos métodos para su obtención.</p>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">Métodos cerrados</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><a th:href="@{/raices/biseccion}" class="text-decoration-none">Método de Bisección</a></li>
+                            <li class="list-group-item"><a th:href="@{/raices/regla-falsa}" class="text-decoration-none">Método de Regla Falsa</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header bg-success text-white">Métodos abiertos</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><a th:href="@{/raices/punto-fijo}" class="text-decoration-none">Método de Iteración de punto Fijo</a></li>
+                            <li class="list-group-item"><a th:href="@{/raices/newton-raphson}" class="text-decoration-none">Método de Newton Raphson</a></li>
+                            <li class="list-group-item"><a th:href="@{/raices/secante}" class="text-decoration-none">Método de la Secante</a></li>
+                            <li class="list-group-item"><a th:href="@{/raices/secante-modificada}" class="text-decoration-none">Método de la Secante Modificada</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

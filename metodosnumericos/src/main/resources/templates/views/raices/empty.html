@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    th:replace="~{fragments/base :: html(title='Raices de Ecuaciones', content=~{::section})}">
+<body>
+    <section>
+        <div class="container text-center mt-5">
+            <div class="alert alert-info" role="alert">
+                <h2 class="alert-heading">Direccionamiento correcto</h2>
+                <hr>
+                <p>El controlador ha procesado tu solicitud de manera exitosa para este método numérico.</p>
+                <a th:href="@{/raices}" class="btn btn-primary mt-3">Volver al menú de Raíces</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

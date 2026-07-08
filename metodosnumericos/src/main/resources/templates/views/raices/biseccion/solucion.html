@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Solución - Bisección', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <h3 class="mb-4">Resultados del Método de Bisección</h3>
+            
+            <div class="table-responsive shadow-sm">
+                <table class="table table-striped table-hover table-bordered align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Iteración</th> <th>XL</th> <th>XU</th> <th>XR</th> <th>FXL</th> <th>FXU</th> <th>FXR</th> <th>Error relativo</th> </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="fila : ${resultados}">
+                            <td th:text="${fila.iteracion}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.xl, 1, 6)}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.xu, 1, 6)}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.xr, 1, 6)}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.fxl, 1, 6)}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.fxu, 1, 6)}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.fxr, 1, 6)}"></td>
+                            <td th:text="${#numbers.formatDecimal(fila.er, 1, 6) + '%'}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <a th:href="@{/raices}" class="btn btn-primary">Regresar</a> </div>
+        </div>
+    </section>
+</body>
+</html>

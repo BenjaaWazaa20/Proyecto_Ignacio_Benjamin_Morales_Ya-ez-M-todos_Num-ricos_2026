@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Método de Bisección', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Método de Bisección</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/raices/biseccion}" th:object="${biseccion}" method="post">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="xl" class="form-label fw-bold">Valor de XL</label> <input type="number" step="any" class="form-control" id="xl" th:field="*{xl}" required> </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="xu" class="form-label fw-bold">Valor de XU</label> <input type="number" step="any" class="form-control" id="xu" th:field="*{xu}" required> </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fx" class="form-label fw-bold">Función FX</label> <input type="text" class="form-control" id="fx" th:field="*{fx}" placeholder="Ej: x^2 - 4" required> </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="er" class="form-label fw-bold">Error relativo aprox.</label> <input type="number" step="any" class="form-control" id="er" th:field="*{er}" required> </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="maximoIteraciones" class="form-label fw-bold">Máximo de iteraciones</label> <input type="number" class="form-control" id="maximoIteraciones" th:field="*{maximoIteraciones}" required> </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success me-2">Resolver</button> <a th:href="@{/raices}" class="btn btn-secondary">Cancelar</a> </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
