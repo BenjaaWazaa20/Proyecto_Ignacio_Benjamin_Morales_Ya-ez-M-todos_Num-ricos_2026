@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/base :: html(title='Punto Fijo Sistema', content=~{::section})}"> <!--[cite: 3] -->
+<body>
+<section>
+    <div class="container mt-5">
+        <h2>Método de Iteración de Punto Fijo (Sistemas no Lineales)</h2>
+        <form th:action="@{/sistemas/punto-fijo}" th:object="${puntoFijoSistema}" method="post"> <!--[cite: 3] -->
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="f1" class="form-label">Ecuación original F1(x,y) = 0</label> <!--[cite: 3] -->
+                    <input type="text" class="form-control" id="f1" th:field="*{f1}" required> <!--[cite: 3] -->
+                </div>
+                <div class="col-md-6">
+                    <label for="f2" class="form-label">Ecuación original F2(x,y) = 0</label> <!--[cite: 3] -->
+                    <input type="text" class="form-control" id="f2" th:field="*{f2}" required> <!--[cite: 3] -->
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="g1" class="form-label">Función despejada G1(x,y)</label> <!--[cite: 3] -->
+                    <input type="text" class="form-control" id="g1" th:field="*{g1}" required> <!--[cite: 3] -->
+                    <small class="text-muted">Despeja x (o y) de las ecuaciones originales mediante operaciones algebraicas.</small> <!--[cite: 3] -->
+                </div>
+                <div class="col-md-6">
+                    <label for="g2" class="form-label">Función despejada G2(x,y)</label> <!--[cite: 3] -->
+                    <input type="text" class="form-control" id="g2" th:field="*{g2}" required> <!--[cite: 3] -->
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="x0" class="form-label">Valor inicial X0</label> <!--[cite: 3] -->
+                    <input type="number" step="any" class="form-control" id="x0" th:field="*{x0}" required> <!--[cite: 3] -->
+                </div>
+                <div class="col-md-3">
+                    <label for="y0" class="form-label">Valor inicial Y0</label> <!--[cite: 3] -->
+                    <input type="number" step="any" class="form-control" id="y0" th:field="*{y0}" required> <!--[cite: 3] -->
+                </div>
+                <div class="col-md-3">
+                    <label for="er" class="form-label">Error relativo aprox. (%)</label> <!--[cite: 3] -->
+                    <input type="number" step="any" class="form-control" id="er" th:field="*{er}" required> <!--[cite: 3] -->
+                </div>
+                <div class="col-md-3">
+                    <label for="maximoIteraciones" class="form-label">Máximo de iteraciones</label> <!--[cite: 3] -->
+                    <input type="number" class="form-control" id="maximoIteraciones" th:field="*{maximoIteraciones}" required> <!--[cite: 3] -->
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Resolver por Punto Fijo</button> <!--[cite: 3] -->
+                <a th:href="@{/sistemas}" class="btn btn-secondary">Cancelar</a> <!--[cite: 3] -->
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Método de Gauss-Jordan', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0 fs-5">Sistemas de Ecuaciones — Método de Gauss-Jordan</h4>
+                </div>
+                <div class="card-body">
+
+                    <!-- Mensaje de error defensivo -->
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <span th:text="${error}"></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <form th:action="@{/sistemas/gauss-jordan}" th:object="${sistemaLineal}" method="post">
+                        
+                        <!-- Selector de tamaño -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label for="tamanoSelect" class="form-label fw-bold">Tamaño del sistema (n x n)</label>
+                                <select id="tamanoSelect" class="form-select" th:field="*{tamano}" onchange="generarMatriz()">
+                                    <option value="2">2 x 2</option>
+                                    <option value="3" selected>3 x 3</option>
+                                    <option value="4">4 x 4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Grid dinámico para Matriz A y Vector b -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-secondary mb-3">Coeficientes y Términos Independientes</h5>
+                            <div id="gridContainer" class="table-responsive"></div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success me-2">
+                                <i class="bi bi-calculator"></i> Resolver por Gauss-Jordan
+                            </button>
+                            <a th:href="@{/sistemas}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generación dinámica de la matriz vía JavaScript -->
+        <script>
+            function generarMatriz() {
+                const n = parseInt(document.getElementById('tamanoSelect').value);
+                const container = document.getElementById('gridContainer');
+                let html = '<table class="table table-sm align-middle text-center" style="max-width: 700px;"><thead><tr>';
+
+                for (let j = 0; j < n; j++) {
+                    html += `<th>X${j + 1}</th>`;
+                }
+                html += '<th class="border-start border-2 border-primary">Términos independientes (b)</th></tr></thead><tbody>';
+
+                for (let i = 0; i < n; i++) {
+                    html += '<tr>';
+                    for (let j = 0; j < n; j++) {
+                        html += `<td>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text">a${i+1}${j+1}</span>
+                                <input type="number" step="any" class="form-control text-center" 
+                                       name="matriz[${i}][${j}]" required placeholder="0.0">
+                            </div>
+                        </td>`;
+                    }
+                    html += `<td class="border-start border-2 border-primary">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">b${i+1}</span>
+                            <input type="number" step="any" class="form-control text-center" 
+                                   name="vector[${i}]" required placeholder="0.0">
+                        </div>
+                    </td></tr>`;
+                }
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+
+            document.addEventListener('DOMContentLoaded', generarMatriz);
+        </script>
+    </section>
+</body>
+</html>

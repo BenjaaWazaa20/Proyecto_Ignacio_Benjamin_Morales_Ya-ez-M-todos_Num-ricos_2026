@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/base :: html(title='Resultado Gauss-Seidel', content=~{::section})}"> <!--[cite: 3] -->
+<body>
+<section class="container my-4"> <!--[cite: 3] -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Resultado del Método de Gauss-Seidel</h2>
+        <a th:href="@{/sistemas}" class="btn btn-secondary"> <!--[cite: 3] -->
+            <i class="bi bi-arrow-left"></i> Regresar a Sistemas
+        </a>
+    </div>
+
+    <!-- Alertas de Estado (Error, Convergencia o Límite de Iteraciones)[cite: 3] -->
+    <div th:if="${resultado.mensajeError != null and !resultado.convergio and #lists.isEmpty(resultado.historial)}" class="alert alert-danger shadow-sm mb-4">
+        <h4 class="alert-heading"><i class="bi bi-x-circle-fill"></i> Error</h4>
+        <p class="mb-0" th:text="${resultado.mensajeError}"></p> <!--[cite: 3] -->
+    </div>
+
+    <div th:if="${resultado.convergio}" class="alert alert-success shadow-sm mb-4">
+        <h4 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Convergencia Alcanzada</h4>
+        <p class="mb-0">El sistema convergió exitosamente.</p> <!--[cite: 3] -->
+    </div>
+
+    <div th:if="${!resultado.convergio and !#lists.isEmpty(resultado.historial)}" class="alert alert-warning shadow-sm mb-4">
+        <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> Advertencia</h4>
+        <p class="mb-0" th:text="${resultado.mensajeError}"></p> <!--[cite: 3] -->
+    </div>
+
+    <!-- Tabla del Historial Completo de Iteraciones[cite: 3] -->
+    <div class="card mb-4 shadow-sm" th:if="${!#lists.isEmpty(resultado.historial)}">
+        <div class="card-header bg-dark text-white">
+            <h5 class="card-title mb-0">Tabla Iterativa de Gauss-Seidel</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered text-center align-middle mb-0">
+                    <thead class="table-dark">
+                        <!-- Primera fila de encabezados agrupados con colspan[cite: 3] -->
+                        <tr>
+                            <th rowspan="2" class="align-middle">Iteración</th> <!--[cite: 3] -->
+                            <th th:colspan="${sistemaIterativo.tamano}">Valores Anteriores</th> <!--[cite: 3] -->
+                            <th th:colspan="${sistemaIterativo.tamano}">Valores Nuevos</th> <!--[cite: 3] -->
+                            <th th:colspan="${sistemaIterativo.tamano}">Error Relativo (%)</th> <!--[cite: 3] -->
+                        </tr>
+                        <!-- Segunda fila de encabezados dinámicos por variable -->
+                        <tr>
+                            <!-- Valores anteriores -->
+                            <th th:each="i : ${#numbers.sequence(1, sistemaIterativo.tamano)}" th:text="'x' + ${i} + '(k)'"></th>
+                            <!-- Valores nuevos -->
+                            <th th:each="i : ${#numbers.sequence(1, sistemaIterativo.tamano)}" th:text="'x' + ${i} + '(k+1)'"></th>
+                            <!-- Errores relativos -->
+                            <th th:each="i : ${#numbers.sequence(1, sistemaIterativo.tamano)}" th:text="'er(x' + ${i} + ')'"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="paso : ${resultado.historial}"> <!--[cite: 3] -->
+                            <td class="fw-bold" th:text="${paso.iteracion}"></td> <!--[cite: 3] -->
+                            
+                            <td th:each="val : ${paso.valoresAnteriores}" th:text="${#numbers.formatDecimal(val, 1, 5)}"></td> <!--[cite: 3] -->
+                            
+                            <td th:each="val : ${paso.valoresNuevos}" class="table-primary" th:text="${#numbers.formatDecimal(val, 1, 5)}"></td> <!--[cite: 3] -->
+                            
+                            <td th:each="err : ${paso.errorPorVariable}" th:text="${#numbers.formatDecimal(err, 1, 4)}"></td> <!--[cite: 3] -->
+                            
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vector Solución Obtenido[cite: 3] -->
+    <div class="card mb-4 shadow-sm border-primary" th:if="${!#lists.isEmpty(resultado.historial)}">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Vector Solución</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush fs-5">
+                <li class="list-group-item d-flex justify-content-between align-items-center" th:each="val, stat : ${resultado.variablesFinales}"> <!--[cite: 3] -->
+                    <span class="fw-bold" th:text="'Variable x' + ${stat.count}"></span>
+                    <span class="text-primary fw-semibold" th:text="${#numbers.formatDecimal(val, 1, 6)}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

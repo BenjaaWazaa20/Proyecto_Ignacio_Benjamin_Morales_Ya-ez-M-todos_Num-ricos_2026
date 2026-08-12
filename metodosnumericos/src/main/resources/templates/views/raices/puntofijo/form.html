@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Método de Punto Fijo', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Método de Iteración de Punto Fijo</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/raices/punto-fijo}" th:object="${puntoFijo}" method="post">
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="x0" class="form-label fw-bold">Valor inicial X0</label>
+                                <input type="number" step="any" class="form-control" id="x0" th:field="*{x0}" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="fx" class="form-label fw-bold">Función original F(X) = 0</label>
+                                <input type="text" class="form-control" id="fx" th:field="*{fx}" 
+                                       placeholder="Ej: x^2 - 2*x - 3" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="gx" class="form-label fw-bold">Función despejada G(X)</label>
+                                <input type="text" class="form-control" id="gx" th:field="*{gx}" 
+                                       placeholder="Ej: sqrt(2*x + 3)" required>
+                                <div class="form-text text-muted">
+                                    Despeja x de F(x) = 0 mediante operaciones algebraicas
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="er" class="form-label fw-bold">Error relativo aprox.</label>
+                                <input type="number" step="any" class="form-control" id="er" th:field="*{er}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="maximoIteraciones" class="form-label fw-bold">Máximo de iteraciones</label>
+                                <input type="number" class="form-control" id="maximoIteraciones" th:field="*{maximoIteraciones}" required>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success me-2">Resolver</button>
+                            <a th:href="@{/raices}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

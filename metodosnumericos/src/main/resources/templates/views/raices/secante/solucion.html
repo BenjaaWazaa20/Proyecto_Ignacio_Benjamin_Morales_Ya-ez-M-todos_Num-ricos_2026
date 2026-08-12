@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Solución - Método de la Secante', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Resultados - Método de Iteración de la Secante</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered text-center align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Iteración</th>
+                                    <th>Xi-1</th>
+                                    <th>Xi</th>
+                                    <th>F(Xi-1)</th>
+                                    <th>F(Xi)</th>
+                                    <th>Xi+1</th>
+                                    <th>Error relativo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="row : ${iteraciones}">
+                                    <td th:text="${row.iteracion}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.xi, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.xi1, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.fXi, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.fXi1, 1, 9)}"></td>
+                                    <td class="fw-bold text-primary" th:text="${#numbers.formatDecimal(row.xr, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.er, 1, 6)}"></td>
+                                </tr>
+                                <tr th:if="${#arrays.isEmpty(iteraciones)}">
+                                    <td colspan="7" class="text-danger fw-bold">
+                                        No se generaron iteraciones: posible división por cero (secante horizontal) o divergencia desde los puntos X0 y X1 ingresados.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        <a th:href="@{/raices}" class="btn btn-secondary">Regresar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

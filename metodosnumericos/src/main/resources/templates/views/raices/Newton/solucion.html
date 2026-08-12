@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Solución - Newton Raphson', content=~{::section})}">
+<body>
+    <section>
+        <div class="container mt-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Resultados - Método de Newton-Raphson</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered text-center align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Iteración</th>
+                                    <th>Xi</th>
+                                    <th>F(Xi)</th>
+                                    <th>F'(Xi)</th>
+                                    <th>Xi+1</th>
+                                    <th>Error relativo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="row : ${iteraciones}">
+                                    <td th:text="${row.iteracion}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.xi, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.fx, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.fpX, 1, 9)}"></td>
+                                    <td class="fw-bold text-primary" th:text="${#numbers.formatDecimal(row.xr, 1, 9)}"></td>
+                                    <td th:text="${#numbers.formatDecimal(row.er, 1, 6)}"></td>
+                                </tr>
+                                <tr th:if="${#arrays.isEmpty(iteraciones)}">
+                                    <td colspan="6" class="text-danger fw-bold">
+                                        No se generaron iteraciones o la derivada F'(Xi) se anuló (tangente horizontal).
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        <a th:href="@{/raices}" class="btn btn-secondary">Regresar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

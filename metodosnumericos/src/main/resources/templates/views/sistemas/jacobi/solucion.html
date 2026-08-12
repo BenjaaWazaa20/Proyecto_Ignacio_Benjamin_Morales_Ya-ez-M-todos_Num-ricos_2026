@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/base :: html(title='Método de Jacobi', content=~{::section})}">
+<body>
+<section class="container my-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Resultado del Método de Jacobi</h2>
+        <a th:href="@{/sistemas}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Regresar a Sistemas
+        </a>
+    </div>
+
+    <!-- 1. Alertas de Estado (Error, Convergencia o Sin Convergencia) -->
+    <div th:if="${resultado.mensajeError != null and !resultado.convergio and #lists.isEmpty(resultado.historial)}" class="alert alert-danger shadow-sm mb-4">
+        <h4 class="alert-heading"><i class="bi bi-x-circle-fill"></i> Error de Ejecución</h4>
+        <p class="mb-0" th:text="${resultado.mensajeError}">Detalle del error</p>
+    </div>
+
+    <div th:if="${resultado.convergio}" class="alert alert-success shadow-sm mb-4">
+        <h4 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Convergencia Alcanzada</h4>
+        <p class="mb-0">El método de Jacobi satisfizo el criterio de tolerancia configurado (<strong th:text="${sistemaIterativo.er} + '%'"></strong>).</p>
+    </div>
+
+    <div th:if="${!resultado.convergio and !#lists.isEmpty(resultado.historial)}" class="alert alert-warning shadow-sm mb-4">
+        <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> Límite de Iteraciones Alcanzado</h4>
+        <p class="mb-0" th:text="${resultado.mensajeError}">Advertencia de iteraciones agotadas.</p>
+    </div>
+
+    <!-- 2. Tabla del Historial Completo de Iteraciones -->
+    <div class="card mb-4 shadow-sm" th:if="${!#lists.isEmpty(resultado.historial)}">
+        <div class="card-header bg-dark text-white">
+            <h5 class="card-title mb-0">Tabla Iterativa de Jacobi</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered text-center align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th rowspan="2" class="align-middle">Iteración</th>
+                            <th th:colspan="${sistemaIterativo.tamano}">Valores calculados</th>
+                            <th th:colspan="${sistemaIterativo.tamano}">Error relativo por variable (%)</th>
+                        </tr>
+                        <tr>
+                            <!-- Encabezados dinámicos: x1, x2, ..., xn -->
+                            <th th:each="i : ${#numbers.sequence(1, sistemaIterativo.tamano)}" th:text="'x' + ${i}">x1</th>
+                            <!-- Encabezados dinámicos: Ea x1, Ea x2, ..., Ea xn -->
+                            <th th:each="i : ${#numbers.sequence(1, sistemaIterativo.tamano)}" th:text="'Ea x' + ${i}">Ea x1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="paso : ${resultado.historial}">
+                            <td class="fw-bold" th:text="${paso.iteracion}">1</td>
+                            <!-- Valores calculados en esta iteración -->
+                            <td th:each="val : ${paso.valoresX}" th:text="${#numbers.formatDecimal(val, 1, 6)}">0.000000</td>
+                            <!-- Error individual por variable -->
+                            <td th:each="err : ${paso.errorPorVariable}"
+                                th:text="${#numbers.formatDecimal(err, 1, 4)} + '%'">0.0000%</td>
+            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="text-end mb-4">
+        <a th:href="@{/sistemas}" class="btn btn-primary btn-lg">Regresar al Menú de Sistemas</a>
+    </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Sistemas Lineales', content=~{::section})}">
+<head>
+    <title>Sistemas de Ecuaciones Lineales</title>
+</head>
+<body>
+    <section class="container mt-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <h3 class="mb-0 fs-4">Unidad III.- Sistema de Ecuaciones lineales</h3>
+            </div>
+            <div class="card-body p-4">
+                <p class="lead text-secondary">
+                    Resolución de Sistemas de ecuaciones lineales y no lineales mediante métodos directos e iterativos, usados hasta para sistemas de 4x4.
+                </p>
+                <hr class="my-4"/>
+                
+                <div class="row g-4">
+                    <!-- Métodos Directos -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-primary shadow-sm">
+                            <div class="card-header bg-primary text-white fw-bold">
+                                Métodos Directos (Máximo sistemas de 4x4)
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <a th:href="@{/sistemas/determinantes}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Determinantes <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                    <a th:href="@{/sistemas/eliminacion-gaussiana}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Eliminación Gaussiana <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                    <a th:href="@{/sistemas/gauss-jordan}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Gauss-Jordan <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Métodos Iterativos -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-success shadow-sm">
+                            <div class="card-header bg-success text-white fw-bold">
+                                Métodos Iterativos (Máximo sistemas de 4x4)
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <a th:href="@{/sistemas/jacobi}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Jacobi <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                    <a th:href="@{/sistemas/gauss-seidel}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Gauss-Seidel <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sistemas No Lineales -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-warning shadow-sm">
+                            <div class="card-header bg-warning text-dark fw-bold">
+                                Sistemas No Lineales (2 ecuaciones)
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <a th:href="@{/sistemas/punto-fijo}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Iteración de Punto Fijo <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                    <a th:href="@{/sistemas/newton-raphson}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        Newton Raphson <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

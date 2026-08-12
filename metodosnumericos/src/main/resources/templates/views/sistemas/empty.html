@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{fragments/base :: html(title='Sistemas Lineales', content=~{::section})}">
+<head>
+    <title>Direccionamiento Correcto</title>
+</head>
+<body>
+    <section class="container mt-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0 fs-5">Direccionamiento correcto</h4>
+            </div>
+            <div class="card-body py-4">
+                <p class="card-text text-muted fs-6">
+                    El método ha sido enlazado y enrutado de manera correcta en la arquitectura del sistema. La interfaz de captura y el algoritmo correspondiente serán integrados en las siguientes fases del desarrollo.
+                </p>
+                <div class="mt-3">
+                    <a th:href="@{/sistemas}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left"></i> Regresar a Sistemas Lineales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

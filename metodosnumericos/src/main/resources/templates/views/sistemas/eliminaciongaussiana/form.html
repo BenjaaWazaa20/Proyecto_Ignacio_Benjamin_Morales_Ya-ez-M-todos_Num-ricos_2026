@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/base :: html(title='Eliminación Gaussiana - Métodos Numéricos', content=~{::section})}">
+<body>
+<section class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Método de Eliminación Gaussiana</h3>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/sistemas/eliminacion-gaussiana}" th:object="${sistemaLineal}" method="post">
+                
+                <!-- Selección de Tamaño del Sistema -->
+                <div class="mb-4 row align-items-center">
+                    <label for="tamano" class="col-sm-3 col-form-label fw-bold">Tamaño del sistema (n x n):</label>
+                    <div class="col-sm-3">
+                        <select id="tamano" th:field="*{tamano}" class="form-select" onchange="generarMatriz()">
+                            <option value="2">2 x 2</option>
+                            <option value="3">3 x 3</option>
+                            <option value="4">4 x 4</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cuadrícula Dinámica de Matriz y Vector -->
+                <div class="mb-4">
+                    <h5 class="fw-bold mb-3">Matriz de Coeficientes [A] y Términos Independientes [b]</h5>
+                    <div id="contenedorMatriz" class="table-responsive">
+                        <!-- Generado dinámicamente con JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a th:href="@{/sistemas}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Resolver por Eliminación Gaussiana</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript para Generación Dinámica de Inputs -->
+    <script th:inline="javascript">
+        function generarMatriz() {
+            const n = parseInt(document.getElementById('tamano').value);
+            const contenedor = document.getElementById('contenedorMatriz');
+            
+            let html = '<table class="table table-bordered text-center align-middle"><thead><tr>';
+            
+            for (let j = 0; j < n; j++) {
+                html += `<th>x${j + 1}</th>`;
+            }
+            html += '<th class="bg-light">Términos independientes (b)</th></tr></thead><tbody>';
+
+            for (let i = 0; i < n; i++) {
+                html += '<tr>';
+                for (let j = 0; j < n; j++) {
+                    html += `<td>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">a${i + 1}${j + 1}</span>
+                            <input type="number" step="any" name="matriz[${i}][${j}]" class="form-control text-end" value="0" required />
+                        </div>
+                    </td>`;
+                }
+                html += `<td class="bg-light">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text">b${i + 1}</span>
+                        <input type="number" step="any" name="vector[${i}]" class="form-control text-end" value="0" required />
+                    </div>
+                </td></tr>`;
+            }
+            html += '</tbody></table>';
+            contenedor.innerHTML = html;
+        }
+
+        // Generar matriz inicial al cargar la página
+        document.addEventListener('DOMContentLoaded', generarMatriz);
+    </script>
+</section>
+</body>
+</html>

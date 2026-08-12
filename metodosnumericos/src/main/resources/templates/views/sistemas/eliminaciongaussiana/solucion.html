@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/base :: html(title='Solución - Eliminación Gaussiana', content=~{::section})}">
+<body>
+<section class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-primary mb-3">
+                <i class="bi bi-calculator"></i> Solución por Eliminación Gaussiana
+            </h2>
+            <hr />
+
+            <!-- Alerta si el sistema es singular -->
+            <div th:if="${resultado.esSingular}" class="alert alert-danger shadow-sm my-4" role="alert">
+                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> Sistema Singular / Sin Solución Única</h4>
+                <p class="mb-0">
+                    El sistema no se puede resolver mediante el método de Eliminación Gaussiana porque se encontró un pivote igual a cero (o numéricamente insignificante) durante el proceso que no pudo ser eliminado.
+                </p>
+            </div>
+
+            <!-- Contenido cuando el sistema tiene solución única -->
+            <div th:unless="${resultado.esSingular}">
+                <!-- Matriz Original Capturada -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-dark text-white fw-bold">
+                        Matriz de Coeficientes y Términos Independientes Capturados [A|b]
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm text-center align-middle w-auto mx-auto">
+                                <tbody>
+                                    <tr th:each="row, rowStat : ${resultado.matrizOriginal}">
+                                        <td th:each="val : ${row}" th:text="${#numbers.formatDecimal(val, 1, 4)}" class="px-3">0.0000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Procedimiento Paso a Paso -->
+                <h4 class="text-secondary mt-4 mb-3">Procedimiento Paso a Paso</h4>
+                <div th:each="paso, iterStat : ${resultado.pasosEliminacion}" class="card mb-3 shadow-sm">
+                    <div class="card-header bg-light fw-bold text-primary" th:text="'Paso ' + ${iterStat.count} + ': Eliminación en columna ' + ${iterStat.count}">
+                        Paso 1
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-sm text-center align-middle w-auto mx-auto">
+                                <tbody>
+                                    <tr th:each="row : ${paso}">
+                                        <td th:each="val, colStat : ${row}"
+                                            th:text="${#numbers.formatDecimal(val, 1, 4)}"
+                                            th:classappend="${colStat.last} ? 'table-warning fw-bold' : ''"
+                                            class="px-3">0.0000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matriz Triangular Superior Final -->
+                <div class="card mb-4 shadow-sm border-info">
+                    <div class="card-header bg-info text-white fw-bold">
+                        Matriz Final Triangular Superior Reducida
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center align-middle w-auto mx-auto">
+                                <tbody>
+                                    <tr th:each="row : ${resultado.matrizTriangular}">
+                                        <td th:each="val, colStat : ${row}"
+                                            th:text="${#numbers.formatDecimal(val, 1, 4)}"
+                                            th:classappend="${colStat.last} ? 'table-success fw-bold' : ''"
+                                            class="px-3">0.0000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vector Solución (Sustitución hacia atrás) -->
+                <div class="card mb-4 shadow-sm border-success">
+                    <div class="card-header bg-success text-white fw-bold">
+                        Vector Solución (Sustitución Hacia Atrás)
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered text-center align-middle w-auto mx-auto">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="px-4">Variable</th>
+                                        <th class="px-4">Valor Calculado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="varVal, iterStat : ${resultado.variables}">
+                                        <td class="fw-bold text-primary" th:text="'x' + ${iterStat.count}">x1</td>
+                                        <td class="fw-bold fs-5" th:text="${#numbers.formatDecimal(varVal, 1, 6)}">0.000000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de acción para regresar -->
+            <div class="d-flex justify-content-start my-4">
+                <a th:href="@{/sistemas}" class="btn btn-secondary btn-lg shadow-sm">
+                    <i class="bi bi-arrow-left-circle"></i> Regresar a Sistemas Lineales
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

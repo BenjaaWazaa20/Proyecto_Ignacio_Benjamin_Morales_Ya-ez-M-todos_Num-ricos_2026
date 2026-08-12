@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/base :: html(title='Método de Jacobi', content=~{::section})}">
+<body>
+<section class="container my-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Método Iterativo de Jacobi</h2>
+        <a th:href="@{/sistemas}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Regresar
+        </a>
+    </div>
+
+    <form th:action="@{/sistemas/jacobi}" th:object="${sistemaIterativo}" method="post" id="jacobiForm">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Parámetros del Sistema</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="tamano" class="form-label fw-bold">Tamaño del sistema (n x n)</label>
+                        <select id="tamano" th:field="*{tamano}" class="form-select" onchange="generarMatriz()">
+                            <option value="2">2 x 2</option>
+                            <option value="3">3 x 3</option>
+                            <option value="4">4 x 4</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="er" class="form-label fw-bold">Error relativo aprox. (%)</label>
+                        <input type="number" step="any" id="er" th:field="*{er}" class="form-control" required/>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="maximoIteraciones" class="form-label fw-bold">Máximo de iteraciones</label>
+                        <input type="number" id="maximoIteraciones" th:field="*{maximoIteraciones}" class="form-control" min="1" max="1000" required/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Matriz de Coeficientes, Términos Independientes y Valores Iniciales</h5>
+            </div>
+            <div class="card-body">
+                <div id="contenedorMatriz" class="table-responsive">
+                    <!-- Generado dinámicamente con JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mb-4">
+            <a th:href="@{/sistemas}" class="btn btn-outline-secondary btn-lg">Cancelar</a>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-calculator"></i> Resolver por Jacobi
+            </button>
+        </div>
+    </form>
+
+    <script th:inline="javascript">
+        function generarMatriz() {
+            const n = parseInt(document.getElementById('tamano').value);
+            const contenedor = document.getElementById('contenedorMatriz');
+            
+            let html = `<table class="table table-bordered align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th colspan="${n}">Matriz de Coeficientes (A)</th>
+                        <th>Términos (b)</th>
+                        <th>Aproximación Inicial (X0)</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            for (let i = 0; i < n; i++) {
+                html += `<tr>`;
+                // Coeficientes A[i][j]
+                for (let j = 0; j < n; j++) {
+                    html += `<td>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">a${i+1}${j+1}</span>
+                            <input type="number" step="any" name="matriz[${i}][${j}]" class="form-control" value="0" required/>
+                        </div>
+                    </td>`;
+                }
+                // Vector b[i]
+                html += `<td class="bg-light">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text">b${i+1}</span>
+                        <input type="number" step="any" name="vector[${i}]" class="form-control fw-bold" value="0" required/>
+                    </div>
+                </td>`;
+                // Vector X0[i]
+                html += `<td class="table-info">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text">x${i+1}⁽⁰⁾</span>
+                        <input type="number" step="any" name="valoresIniciales[${i}]" class="form-control" value="0" required/>
+                    </div>
+                </td>`;
+                html += `</tr>`;
+            }
+
+            html += `</tbody></table>`;
+            contenedor.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', generarMatriz);
+    </script>
+</section>
+</body>
+</html>
