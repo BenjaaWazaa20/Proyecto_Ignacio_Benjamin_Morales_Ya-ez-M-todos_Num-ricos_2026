@@ -1,17 +1,90 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{fragments/base :: html(content=~{::section})}">
-<body>
-    <section>
-        <div class="p-5 mb-4 bg-light rounded-3 border">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold" th:text="${titulo}">Bienvenido</h1>
-                <p class="col-md-8 fs-4">
-                    Esta plataforma está diseñada para resolver problemas matemáticos utilizando métodos numéricos implementados en Java con la librería Symja.
-                </p>
-                <button class="btn btn-primary btn-lg" type="button">Comenzar</button>
-            </div>
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title/text()}, ~{::section})}">
+  <head>
+    <title>Unidad II.- Raíces de Ecuaciones</title>
+  </head>
+  <body>
+    <section class="container my-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white">
+          <h3 class="mb-0">
+            <i class="bi bi-diagram-3-fill me-2"></i>Unidad II.- Raíces de
+            Ecuaciones
+          </h3>
         </div>
+        <div class="card-body">
+          <p class="lead text-muted">
+            Cálculo de raíces para funciones de polinomios exponenciales
+            utilizando distintos métodos numéricos para su obtención.
+          </p>
+          <hr />
+
+          <div class="row g-4 mt-2">
+            <!-- Métodos Cerrados -->
+            <div class="col-md-6">
+              <div class="card h-100 border-primary shadow-sm">
+                <div class="card-header bg-primary text-white font-weight-bold">
+                  <i class="bi bi-box-seam me-2"></i>Métodos Cerrados
+                </div>
+                <div class="list-group list-group-flush">
+                  <a
+                    th:href="@{/raices/biseccion}"
+                    class="list-group-item list-group-item-action d-flex align-items-center"
+                  >
+                    <i class="bi bi-calculator me-2 text-primary"></i> Método de
+                    Bisección
+                  </a>
+                  <a
+                    th:href="@{/raices/reglafalsa}"
+                    class="list-group-item list-group-item-action d-flex align-items-center"
+                  >
+                    <i class="bi bi-calculator-fill me-2 text-primary"></i>
+                    Método de Regla Falsa
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Métodos Abiertos -->
+            <div class="col-md-6">
+              <div class="card h-100 border-success shadow-sm">
+                <div
+                  class="card-header bg-success text-white font-weight-bold"
+                >
+                  <i class="bi bi-unlock me-2"></i>Métodos Abiertos
+                </div>
+                <div class="list-group list-group-flush">
+                  <a
+                    th:href="@{/raices/puntofijo}"
+                    class="list-group-item list-group-item-action d-flex align-items-center"
+                  >
+                    <i class="bi bi-arrow-repeat me-2 text-secondary"></i>
+                    Método de Iteración de Punto Fijo
+                  </a>
+                  <a
+                    th:href="@{/raices/newtonraphson}"
+                    class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                  >
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Método de Newton-Raphson</span>
+                  </a>
+                  <a
+                    th:href="@{/raices/secante}"
+                    class="list-group-item list-group-item-action d-flex align-items-center"
+                  >
+                    <i class="bi bi-slash-lg me-2 text-secondary"></i> Método de
+                    la Secante
+                  </a>
+                  <a th:href="@{/raices/secante-modificada}" class="list-group-item list-group-item-action d-flex align-items-center">
+            <i class="bi bi-calculator me-2"></i>Método de la Secante Modificado
+        </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-</body>
+  </body>
 </html>

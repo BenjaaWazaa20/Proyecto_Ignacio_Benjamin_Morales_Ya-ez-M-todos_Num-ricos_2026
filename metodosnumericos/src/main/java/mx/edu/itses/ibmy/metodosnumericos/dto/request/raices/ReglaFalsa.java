@@ -5,15 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ReglaFalsa {
-    private double xl; //
-    private double xu; //
-    private String fx; //
-    private double er; //
-    private int maximoIteraciones; //
+
+    private double xl;
+    private double xu;
+    private String fx;
+    private double er;
+    private int maximoIteraciones;
 }

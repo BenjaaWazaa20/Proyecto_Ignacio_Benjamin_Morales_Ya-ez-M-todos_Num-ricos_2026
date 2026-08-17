@@ -1,26 +1,30 @@
 package mx.edu.itses.ibmy.metodosnumericos.service;
 
 import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.Biseccion;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.BiseccionRespuesta;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.Newton;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.NewtonRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.NewtonRaphson;
 import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.PuntoFijo;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.PuntoFijoRespuesta;
 import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.ReglaFalsa;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.ReglaFalsaRespuesta;
 import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.Secante;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.SecanteRespuesta;
 import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.SecanteModificada;
-import mx.edu.itses.ibmy.metodosnumericos.dto.request.raices.SecanteModificadaRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.response.raices.BiseccionRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.response.raices.NewtonRaphsonRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.response.raices.PuntoFijoRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.response.raices.ReglaFalsaRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.response.raices.SecanteModificadaRespuesta;
+import mx.edu.itses.ibmy.metodosnumericos.dto.response.raices.SecanteRespuesta;
 
+import java.util.List;
 
-
+/**
+ * Contrato de la capa de servicio para los métodos numéricos de Raíces de Ecuaciones.
+ */
 public interface RaicesEcuaciones {
-    // Método que recibe el DTO Biseccion y retorna un arreglo de BiseccionRespuesta
-    BiseccionRespuesta[] biseccion(Biseccion peticion); // 
-    ReglaFalsaRespuesta[] reglaFalsa(ReglaFalsa peticion);
-    PuntoFijoRespuesta[] puntoFijo(PuntoFijo peticion);
-    NewtonRespuesta[] newtonRaphson(Newton peticion);
-    SecanteRespuesta[] secante(Secante peticion);
-    SecanteModificadaRespuesta[] secanteModificada(SecanteModificada peticion);
+
+    List<BiseccionRespuesta> biseccion(Biseccion request);
+
+    List<ReglaFalsaRespuesta> reglaFalsa(ReglaFalsa request);
+    List<PuntoFijoRespuesta> puntoFijo(PuntoFijo request);
+    List<NewtonRaphsonRespuesta> newtonRaphson(NewtonRaphson request);
+    List<SecanteRespuesta> secante(Secante request);
+    List<SecanteModificadaRespuesta> secanteModificada(SecanteModificada request);
 }

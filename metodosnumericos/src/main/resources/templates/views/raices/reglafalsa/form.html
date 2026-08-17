@@ -1,50 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{fragments/base :: html(title='Método de Regla Falsa', content=~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Método de Regla Falsa</title>
+</head>
 <body>
-    <section>
-        <div class="container mt-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Método de Regla Falsa</h4>
+    <section class="container my-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-calculator-fill me-2"></i>Parámetros - Método de Regla Falsa</h4>
+            </div>
+            <div class="card-body">
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <span th:text="${errorMessage}">Error</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <div class="card-body">
-                    <!-- Formulario con envío POST hacia /raices/regla-falsa -->
-                    <form th:action="@{/raices/regla-falsa}" th:object="${reglaFalsa}" method="post">
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="xl" class="form-label fw-bold">Valor de XL</label> <!--[cite: 2] -->
-                                <input type="number" step="any" class="form-control" id="xl" th:field="*{xl}" required> <!--[cite: 2] -->
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="xu" class="form-label fw-bold">Valor de XU</label> <!--[cite: 2] -->
-                                <input type="number" step="any" class="form-control" id="xu" th:field="*{xu}" required> <!--[cite: 2] -->
-                            </div>
+
+                <form th:action="@{/raices/reglafalsa}" th:object="${reglaFalsa}" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="xl" class="form-label fw-bold">Valor de XL</label>
+                            <input type="number" step="any" class="form-control" id="xl" th:field="*{xl}" required placeholder="Ej. 0.0" />
                         </div>
 
-                        <div class="mb-3">
-                            <label for="fx" class="form-label fw-bold">Función FX</label> <!--[cite: 2] -->
-                            <input type="text" class="form-control" id="fx" th:field="*{fx}" placeholder="Ej: x^3 - 2*x - 5" required> <!--[cite: 2] -->
+                        <div class="col-md-6">
+                            <label for="xu" class="form-label fw-bold">Valor de XU</label>
+                            <input type="number" step="any" class="form-control" id="xu" th:field="*{xu}" required placeholder="Ej. 2.0" />
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="er" class="form-label fw-bold">Error relativo aprox.</label> <!--[cite: 2] -->
-                                <input type="number" step="any" class="form-control" id="er" th:field="*{er}" required> <!--[cite: 2] -->
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="maximoIteraciones" class="form-label fw-bold">Máximo de iteraciones</label> <!--[cite: 2] -->
-                                <input type="number" class="form-control" id="maximoIteraciones" th:field="*{maximoIteraciones}" required> <!--[cite: 2] -->
-                            </div>
+                        <div class="col-12">
+                            <label for="fx" class="form-label fw-bold">Función FX</label>
+                            <input type="text" class="form-control" id="fx" th:field="*{fx}" required placeholder="Ej. x^3 - 2*x - 5" />
+                            <div class="form-text">Introduce una función matemática válida expresada en términos de 'x'.</div>
                         </div>
 
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-success me-2">Resolver</button> <!--[cite: 2] -->
-                            <a th:href="@{/raices}" class="btn btn-secondary">Cancelar</a> <!--[cite: 2] -->
+                        <div class="col-md-6">
+                            <label for="er" class="form-label fw-bold">Error relativo aprox. (%)</label>
+                            <input type="number" step="any" class="form-control" id="er" th:field="*{er}" required placeholder="Ej. 0.001" />
                         </div>
-                    </form>
-                </div>
+
+                        <div class="col-md-6">
+                            <label for="maximoIteraciones" class="form-label fw-bold">Máximo de iteraciones</label>
+                            <input type="number" class="form-control" id="maximoIteraciones" th:field="*{maximoIteraciones}" required placeholder="Ej. 100" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a th:href="@{/raices}" class="btn btn-danger">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-play-circle"></i> Resolver
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>

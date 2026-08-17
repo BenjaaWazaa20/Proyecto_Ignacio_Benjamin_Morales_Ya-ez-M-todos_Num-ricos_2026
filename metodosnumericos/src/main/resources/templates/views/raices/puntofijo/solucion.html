@@ -1,44 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{fragments/base :: html(title='Solución - Punto Fijo', content=~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Resultados - Punto Fijo</title>
+</head>
 <body>
-    <section>
-        <div class="container mt-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Resultados - Método de Iteración de Punto Fijo</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-bordered text-center align-middle">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Iteración</th>
-                                    <th>Xi</th>
-                                    <th>G(Xi)</th>
-                                    <th>Error relativo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="row : ${iteraciones}">
-                                    <td th:text="${row.iteracion}"></td>
-                                    <td th:text="${#numbers.formatDecimal(row.xi, 1, 9)}"></td>
-                                    <td class="fw-bold text-primary" th:text="${#numbers.formatDecimal(row.xr, 1, 9)}"></td>
-                                    <td th:text="${#numbers.formatDecimal(row.er, 1, 6)}"></td>
-                                </tr>
-                                <tr th:if="${#arrays.isEmpty(iteraciones)}">
-                                    <td colspan="4" class="text-danger fw-bold">
-                                        No se generaron iteraciones o la función divergió durante el cálculo.
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mt-4">
-                        <a th:href="@{/raices}" class="btn btn-secondary">Regresar</a>
-                    </div>
-                </div>
-            </div>
+    <section class="container my-4">
+        <h2 class="mb-4 text-primary">Resultados: Método de Iteración de Punto Fijo</h2>
+
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover table-striped table-bordered mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">Iteración</th>
+                        <th scope="col" class="text-center">X0</th>
+                        <th scope="col" class="text-center">G(X0)</th>
+                        <th scope="col" class="text-center">Error Relativo (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="fila : ${resultados}">
+                        <td class="text-center fw-bold" th:text="${fila.iteracion}">1</td>
+                        <td class="text-end" th:text="${#numbers.formatDecimal(fila.x0, 1, 6)}">0.0</td>
+                        <td class="text-end" th:text="${#numbers.formatDecimal(fila.gx0, 1, 6)}">0.0</td>
+                        <td class="text-end" th:text="${#numbers.formatDecimal(fila.er, 1, 6)}">0.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <a th:href="@{/raices}" class="btn btn-primary">
+                <i class="bi bi-arrow-left me-1"></i> Regresar
+            </a>
         </div>
     </section>
 </body>

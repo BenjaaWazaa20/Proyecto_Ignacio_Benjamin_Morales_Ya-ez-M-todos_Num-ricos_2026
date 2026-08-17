@@ -1,51 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{fragments/base :: html(title='Método de la Secante', content=~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout('Método de la Secante', ~{::main})}">
+<head>
+    <meta charset="UTF-8">
+</head>
 <body>
-    <section>
-        <div class="container mt-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Método de Iteración de la Secante</h4>
-                </div>
-                <div class="card-body">
-                    <form th:action="@{/raices/secante}" th:object="${secante}" method="post">
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="x0" class="form-label fw-bold">Valor inicial X0</label>
-                                <input type="number" step="any" class="form-control" id="x0" th:field="*{x0}" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="x1" class="form-label fw-bold">Valor inicial X1</label>
-                                <input type="number" step="any" class="form-control" id="x1" th:field="*{x1}" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="fx" class="form-label fw-bold">Función F(X)</label>
-                                <input type="text" class="form-control" id="fx" th:field="*{fx}" 
-                                       placeholder="Ej: x^3 - 2*x - 5" required>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="er" class="form-label fw-bold">Error relativo aprox.</label>
-                                <input type="number" step="any" class="form-control" id="er" th:field="*{er}" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="maximoIteraciones" class="form-label fw-bold">Máximo de iteraciones</label>
-                                <input type="number" class="form-control" id="maximoIteraciones" th:field="*{maximoIteraciones}" required>
-                            </div>
-                        </div>
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="card-title mb-0">Método de la Secante</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/raices/secante/calcular}" 
+                              th:object="${secanteDTO}" 
+                              method="post">
 
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-success me-2">Resolver</button>
-                            <a th:href="@{/raices}" class="btn btn-secondary">Cancelar</a>
-                        </div>
-                    </form>
+                            <!-- Campo Xi-1 -->
+                            <div class="mb-3">
+                                <label for="xiMenos1" class="form-label">Valor de X<sub>i-1</sub></label>
+                                <input type="number" step="any" class="form-control" id="xiMenos1" 
+                                       th:field="*{xiMenos1}" required>
+                            </div>
+
+                            <!-- Campo Xi -->
+                            <div class="mb-3">
+                                <label for="xi" class="form-label">Valor de X<sub>i</sub></label>
+                                <input type="number" step="any" class="form-control" id="xi" 
+                                       th:field="*{xi}" required>
+                            </div>
+
+                            <!-- Función FX -->
+                            <div class="mb-3">
+                                <label for="fx" class="form-label">Función f(x)</label>
+                                <input type="text" class="form-control" id="fx" 
+                                       th:field="*{fx}" placeholder="Ej: x^3 - 2*x - 5" required>
+                            </div>
+
+                            <!-- Error relativo aproximado -->
+                            <div class="mb-3">
+                                <label for="er" class="form-label">Error relativo aprox. (%)</label>
+                                <input type="number" step="any" class="form-control" id="er" 
+                                       th:field="*{er}" required>
+                            </div>
+
+                            <!-- Máximo de iteraciones -->
+                            <div class="mb-3">
+                                <label for="maximoIteraciones" class="form-label">Máximo de iteraciones</label>
+                                <input type="number" class="form-control" id="maximoIteraciones" 
+                                       th:field="*{maximoIteraciones}" required>
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">Resolver</button>
+                                <a th:href="@{/raices}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
 </body>
 </html>

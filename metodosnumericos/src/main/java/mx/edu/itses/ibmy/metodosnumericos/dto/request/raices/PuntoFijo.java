@@ -6,12 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PuntoFijo {
     private double x0;
-    private String fx;
     private String gx;
     private double er;
     private int maximoIteraciones;

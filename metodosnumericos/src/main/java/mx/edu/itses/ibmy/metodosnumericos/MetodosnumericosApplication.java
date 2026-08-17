@@ -8,6 +8,6 @@ public class MetodosnumericosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MetodosnumericosApplication.class, args);
+		
 	}
-
 }
