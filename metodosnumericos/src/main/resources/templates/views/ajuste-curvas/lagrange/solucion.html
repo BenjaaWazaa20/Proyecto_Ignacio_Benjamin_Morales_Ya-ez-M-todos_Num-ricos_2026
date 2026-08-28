@@ -1,52 +1,93 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
 <head>
     <title>Solución - Polinomio de Lagrange</title>
 </head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0"><i class="bi bi-check-circle me-2"></i>Resultados - Interpolación de Lagrange</h4>
-                <span class="badge bg-info text-dark" th:text="'Grado ' + ${resultado.gradoPolinomio}">Grado N</span>
+<section class="container my-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 animate-in">
+        <div>
+            <span class="section-kicker mb-2"><i class="bi bi-braces"></i> Ajuste de curvas · Lagrange</span>
+            <h2 class="section-title mb-1" style="font-size:1.65rem;">Interpolación de Lagrange</h2>
+            <p class="section-desc mb-0 small">Base polinómica L<sub>i</sub>(x) y polinomio interpolador P(x).</p>
+        </div>
+        <span class="badge-numerica badge-dark" th:text="'Grado ' + ${resultado.gradoPolinomio}">Grado N</span>
+    </div>
+
+    <!-- Polinomio -->
+    <div class="result-highlight mb-4 animate-in">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <div class="icon-bubble ib-indigo" style="width:38px;height:38px;font-size:.95rem;"><i class="bi bi-check2-circle"></i></div>
+            <span class="text-uppercase fw-bold" style="font-size:.72rem;letter-spacing:.08em;color:var(--primary-600);">Polinomio Interpolador P(x)</span>
+            <span class="badge-numerica badge-primary ms-auto" th:text="'Grado ' + ${resultado.gradoPolinomio}">Grado</span>
+        </div>
+        <p class="font-mono fw-bold mb-0 text-center" style="font-size:1.08rem; word-break:break-word;" th:text="${resultado.polinomioResultante}">P(x) = ...</p>
+    </div>
+
+    <!-- Evaluación -->
+    <div th:if="${resultado.xEvaluar != null}" class="card-numerica mb-4 animate-in">
+        <div class="card-body d-flex flex-wrap align-items-center justify-content-center gap-3 text-center">
+            <div class="icon-bubble ib-emerald"><i class="bi bi-bullseye"></i></div>
+            <div>
+                <div class="label-numerica justify-content-center"><i class="bi bi-crosshair"></i> Resultado de Evaluación</div>
+                <p class="fs-5 mb-0 font-mono">
+                    P(<span class="fw-bold" th:text="${resultado.xEvaluar}"></span>) =
+                    <span class="fw-bold" style="color:var(--primary-600);" th:text="${#numbers.formatDecimal(resultado.yEvaluado, 1, 'POINT', 6, 'POINT')}"></span>
+                </p>
             </div>
-            <div class="card-body">
-                
-                <!-- Polinomio Resultante -->
-                <div class="alert alert-success border-success text-center py-3 mb-4">
-                    <h5 class="mb-1 text-uppercase text-muted fs-6 fw-bold">Polinomio Interpolador P(x)</h5>
-                    <p class="display-7 fw-bold text-dark mb-0" th:text="${resultado.polinomioResultante}">P(x) = ...</p>
-                </div>
+            <span class="badge-numerica badge-success ms-md-auto"><i class="bi bi-lightning-charge"></i> Evaluado</span>
+        </div>
+    </div>
 
-                <!-- Evaluación del Punto Objetivo -->
-                <div th:if="${resultado.xEvaluar != null}" class="alert alert-info border-info text-center py-3 mb-4">
-                    <h5 class="mb-1 text-uppercase text-muted fs-6 fw-bold">Resultado de Evaluación</h5>
-                    <p class="fs-4 mb-0">
-                        P(<span class="fw-bold" th:text="${resultado.xEvaluar}"></span>) = 
-                        <span class="fw-bold text-primary" th:text="${#numbers.formatDecimal(resultado.yEvaluado, 1, 'POINT', 6, 'POINT')}"></span>
-                    </p>
-                </div>
+    <!-- Polinomios Base -->
+    <div class="card-numerica mb-4 animate-in">
+        <div class="card-header-numerica">
+            <div class="d-flex align-items-center gap-2">
+                <div class="icon-bubble ib-violet" style="width:36px;height:36px;"><i class="bi bi-layers"></i></div>
+                <h5 class="mb-0 fw-bold" style="font-size:.98rem;">Polinomios Base de Lagrange L<sub>i</sub>(x)</h5>
+            </div>
+            <span class="badge-numerica badge-primary" th:text="${#lists.size(resultado.polinomiosBaseL)} + ' bases'"></span>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+                <li th:each="li,iter : ${resultado.polinomiosBaseL}" class="list-group-item d-flex gap-3 align-items-start font-mono" style="font-size:.88rem;">
+                    <span class="badge-numerica badge-dark" style="min-width:44px;justify-content:center;" th:text="'L' + ${iter.index}">L0</span>
+                    <span th:text="${li}" style="word-break:break-word;">L_i(x)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-                <!-- Funciones Base L_i(x) -->
-                <h5 class="fw-bold mt-4"><i class="bi bi-layers me-2"></i>Polinomios Base de Lagrange L<sub>i</sub>(x)</h5>
-                <ul class="list-group mb-4">
-                    <li th:each="li : ${resultado.polinomiosBaseL}" class="list-group-item font-monospace" th:text="${li}">L_i(x)</li>
-                </ul>
-
-                <!-- Pasos del Desarrollo -->
-                <h5 class="fw-bold mt-4"><i class="bi bi-list-ol me-2"></i>Desarrollo Matemático Paso a Paso</h5>
-                <div class="bg-light p-3 rounded border font-monospace text-dark mb-4">
-                    <div th:each="paso : ${resultado.pasosDesarrollo}" th:text="${paso}">Paso</div>
-                </div>
-
-                <div class="d-flex justify-content-start">
-                    <a th:href="@{/ajuste-curvas/lagrange}" class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-left"></i> Regresar al Formulario
-                    </a>
+    <!-- Pasos -->
+    <div class="card-numerica mb-4 animate-in">
+        <div class="card-header-numerica">
+            <div class="d-flex align-items-center gap-2">
+                <div class="icon-bubble ib-slate" style="width:36px;height:36px;"><i class="bi bi-list-ol"></i></div>
+                <h5 class="mb-0 fw-bold" style="font-size:.98rem;">Desarrollo Matemático Paso a Paso</h5>
+            </div>
+            <span class="badge-numerica badge-dark" th:text="${#lists.size(resultado.pasosDesarrollo)} + ' pasos'"></span>
+        </div>
+        <div class="card-body p-0">
+            <div class="code-block m-3">
+                <div th:each="paso,iter : ${resultado.pasosDesarrollo}" class="d-flex gap-2 py-1" style="border-bottom:1px solid rgba(255,255,255,.06);">
+                    <span class="text-white-50" style="min-width:28px;" th:text="${iter.index + 1} + '.'"></span>
+                    <span th:text="${paso}">Paso</span>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="d-flex gap-2">
+        <a th:href="@{/ajuste-curvas/lagrange}" class="btn-numerica btn-ghost">
+            <i class="bi bi-arrow-left"></i> Regresar al Formulario
+        </a>
+        <a th:href="@{/}" class="btn-numerica btn-primary-numerica ms-auto">
+            <i class="bi bi-house"></i> Inicio
+        </a>
+    </div>
+
+</section>
 </body>
 </html>

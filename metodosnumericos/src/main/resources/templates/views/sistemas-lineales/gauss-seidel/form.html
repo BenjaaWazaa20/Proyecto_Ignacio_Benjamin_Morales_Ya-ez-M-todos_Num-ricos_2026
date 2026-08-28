@@ -5,93 +5,145 @@
     <title>Método Iterativo de Gauss-Seidel</title>
 </head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0"><i class="bi bi-cpu-fill me-2"></i>Método Iterativo de Gauss-Seidel</h4>
-                <div class="btn-group" role="group" aria-label="Dimensiones">
-                    <a th:href="@{/sistemas-lineales/gauss-seidel(dim=2)}" 
-                       th:classappend="${gaussSeidelRequest.dimension == 2} ? 'btn-light text-primary fw-bold' : 'btn-outline-light'" 
-                       class="btn btn-sm">2x2</a>
-                    <a th:href="@{/sistemas-lineales/gauss-seidel(dim=3)}" 
-                       th:classappend="${gaussSeidelRequest.dimension == 3} ? 'btn-light text-primary fw-bold' : 'btn-outline-light'" 
-                       class="btn btn-sm">3x3</a>
-                    <a th:href="@{/sistemas-lineales/gauss-seidel(dim=4)}" 
-                       th:classappend="${gaussSeidelRequest.dimension == 4} ? 'btn-light text-primary fw-bold' : 'btn-outline-light'" 
-                       class="btn btn-sm">4x4</a>
+<section class="container py-4 animate-in" style="max-width:860px;">
+    <div class="mb-3">
+        <a th:href="@{/sistemas-lineales}" class="text-decoration-none d-inline-flex align-items-center gap-2" style="font-weight:700;font-size:.85rem;color:var(--muted);">
+            <i class="bi bi-arrow-left"></i> Volver a sistemas lineales
+        </a>
+    </div>
+
+    <div class="form-card">
+        <div class="form-header">
+            <div class="d-flex align-items-start gap-3">
+                <div class="icon-bubble ib-orange" style="width:52px;height:52px;font-size:1.45rem;flex-shrink:0;">
+                    <i class="bi bi-cpu-fill"></i>
+                </div>
+                <div>
+                    <div class="d-inline-flex align-items-center gap-2 mb-1 flex-wrap">
+                        <span class="badge-numerica">Iterativo</span>
+                        <span class="badge-numerica">Actualización inmediata</span>
+                        <span class="badge-numerica" th:text="${gaussSeidelRequest.dimension} + ' × ' + ${gaussSeidelRequest.dimension}">3 × 3</span>
+                    </div>
+                    <h3 class="mb-1 font-display" style="font-size:1.55rem;">Método de Gauss-Seidel</h3>
+                    <p>Iteración con uso inmediato de valores actualizados · Convergencia si <span class="font-mono" style="color:#fed7aa;">A</span> es diagonalmente dominante.</p>
                 </div>
             </div>
-            <div class="card-body">
-                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        </div>
+
+        <div class="form-body">
+            <div th:if="${errorMessage}" class="alert-numerica alert-danger-numerica mb-4" role="alert">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size:1.05rem;flex-shrink:0;"></i>
+                <div>
+                    <strong style="display:block;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;">No se pudo continuar</strong>
                     <span th:text="${errorMessage}">Error de procesamiento</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="section-kicker" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;"><i class="bi bi-aspect-ratio"></i> Dimensión</span>
+                <hr class="divider-soft flex-grow-1 my-0"/>
+                <span class="font-mono" style="font-size:.78rem;font-weight:700;color:var(--muted);" th:text="${gaussSeidelRequest.dimension} + '×' + ${gaussSeidelRequest.dimension}">3×3</span>
+            </div>
+
+            <div class="seg-control mb-4" role="group" aria-label="Dimensiones">
+                <a th:href="@{/sistemas-lineales/gauss-seidel(dim=2)}"
+                   th:classappend="${gaussSeidelRequest.dimension == 2} ? 'active' : ''">2 × 2</a>
+                <a th:href="@{/sistemas-lineales/gauss-seidel(dim=3)}"
+                   th:classappend="${gaussSeidelRequest.dimension == 3} ? 'active' : ''">3 × 3</a>
+                <a th:href="@{/sistemas-lineales/gauss-seidel(dim=4)}"
+                   th:classappend="${gaussSeidelRequest.dimension == 4} ? 'active' : ''">4 × 4</a>
+            </div>
+
+            <form th:action="@{/sistemas-lineales/gauss-seidel}" th:object="${gaussSeidelRequest}" method="post" novalidate>
+                <input type="hidden" th:field="*{dimension}" />
+
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="section-kicker"><i class="bi bi-grid-3x3-gap"></i> Coeficientes</span>
+                    <hr class="divider-soft flex-grow-1 my-0"/>
                 </div>
 
-                <form th:action="@{/sistemas-lineales/gauss-seidel}" th:object="${gaussSeidelRequest}" method="post">
-                    <input type="hidden" th:field="*{dimension}" />
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                    <label class="label-numerica mb-0"><i class="bi bi-table"></i> Matriz <span class="font-mono">[A]</span> y términos <span class="font-mono">[b]</span></label>
+                    <span class="help-numerica my-0"><i class="bi bi-info-circle"></i> Diagonal dominante mejora convergencia</span>
+                </div>
 
-                    <!-- Matriz A y Vector B -->
-                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-grid-3x3-gap me-2"></i>Matriz Coeficientes [A] y Términos Independientes [B]</h5>
-                    <div class="table-responsive mb-4">
-                        <table class="table table-bordered text-center align-middle">
-                            <thead class="table-light">
+                <div class="table-numerica overflow-hidden mb-4">
+                    <div class="table-responsive">
+                        <table class="table mb-0 text-center align-middle" style="min-width:520px;">
+                            <thead>
                                 <tr>
                                     <th th:each="j : ${#numbers.sequence(1, gaussSeidelRequest.dimension)}" th:text="'x' + ${j}">x1</th>
-                                    <th class="bg-warning-subtle text-dark">b</th>
+                                    <th style="background:#fff7ed;color:#9a3412;border-left:2px solid #fed7aa;">b</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="i : ${#numbers.sequence(0, gaussSeidelRequest.dimension - 1)}">
-                                    <td th:each="j : ${#numbers.sequence(0, gaussSeidelRequest.dimension - 1)}">
-                                        <input type="number" step="any" class="form-control text-center"
-                                               th:field="*{matrizA[__${i}__][__${j}__]}" required placeholder="0.0" />
+                                    <td th:each="j : ${#numbers.sequence(0, gaussSeidelRequest.dimension - 1)}" style="padding:.45rem;">
+                                        <input type="number" step="any" class="form-control input-numerica text-center font-mono"
+                                               th:field="*{matrizA[__${i}__][__${j}__]}" required placeholder="0.0" style="min-width:86px;" />
                                     </td>
-                                    <td class="bg-warning-subtle">
-                                        <input type="number" step="any" class="form-control text-center border-warning"
-                                               th:field="*{vectorB[__${i}__]}" required placeholder="0.0" />
+                                    <td style="padding:.45rem;background:#fff7ed;border-left:2px solid #fed7aa;">
+                                        <input type="number" step="any" class="form-control input-numerica text-center font-mono"
+                                               th:field="*{vectorB[__${i}__]}" required placeholder="0.0" style="min-width:86px;background:white !important;border-color:#fdba74 !important;" />
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <!-- Vector Inicial X0 -->
-                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-arrow-right-circle me-2"></i>Vector Inicial [X0]</h5>
-                    <div class="row g-3 mb-4">
-                        <div class="col" th:each="i : ${#numbers.sequence(0, gaussSeidelRequest.dimension - 1)}">
-                            <label th:for="${'vectorX0' + i}" class="form-label fw-bold" th:text="'x' + ${i+1} + ' (Inicial)'">x1 (Inicial)</label>
-                            <input type="number" step="any" class="form-control text-center"
-                                   th:field="*{vectorX0[__${i}__]}" required placeholder="0.0" />
-                        </div>
-                    </div>
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="section-kicker" style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;"><i class="bi bi-arrow-right-circle"></i> Vector inicial</span>
+                    <hr class="divider-soft flex-grow-1 my-0"/>
+                </div>
 
-                    <!-- Criterios de Convergencia -->
-                    <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-sliders me-2"></i>Criterios de Convergencia</h5>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label for="tolerancia" class="form-label fw-bold">Tolerancia Error Relativo (%)</label>
-                            <input type="number" step="any" class="form-control" id="tolerancia" 
-                                   th:field="*{tolerancia}" required placeholder="Ej. 0.0001" />
-                        </div>
-                        <div class="col-md-6">
-                            <label for="maximoIteraciones" class="form-label fw-bold">Máximo de Iteraciones</label>
-                            <input type="number" class="form-control" id="maximoIteraciones" 
-                                   th:field="*{maximoIteraciones}" required placeholder="Ej. 100" />
-                        </div>
+                <div class="row g-3 mb-4">
+                    <div class="col" th:each="i : ${#numbers.sequence(0, gaussSeidelRequest.dimension - 1)}">
+                        <label th:for="${'vectorX0' + i}" class="label-numerica" th:text="'x' + ${i+1} + ' inicial'">x1 inicial</label>
+                        <input type="number" step="any" class="form-control input-numerica text-center font-mono"
+                               th:field="*{vectorX0[__${i}__]}" required placeholder="0.0" />
                     </div>
+                </div>
 
-                    <div class="d-flex justify-content-end gap-2">
-                        <a th:href="@{/sistemas-lineales}" class="btn btn-secondary">
-                            <i class="bi bi-x-circle me-1"></i>Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-play-circle me-1"></i>Resolver
-                        </button>
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="section-kicker"><i class="bi bi-sliders"></i> Convergencia</span>
+                    <hr class="divider-soft flex-grow-1 my-0"/>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="tolerancia" class="label-numerica"><i class="bi bi-bullseye"></i> Tolerancia error relativo (%)</label>
+                        <input type="number" step="any" class="form-control input-numerica" id="tolerancia"
+                               th:field="*{tolerancia}" required placeholder="Ej. 0.0001" />
+                        <div class="help-numerica"><i class="bi bi-info-circle"></i> Criterio de parada. Ej: 0.0001 = 0.01%.</div>
                     </div>
-                </form>
-            </div>
+                    <div class="col-md-6">
+                        <label for="maximoIteraciones" class="label-numerica"><i class="bi bi-repeat"></i> Máximo de iteraciones</label>
+                        <input type="number" class="form-control input-numerica" id="maximoIteraciones"
+                               th:field="*{maximoIteraciones}" required placeholder="Ej. 100" />
+                        <div class="help-numerica"><i class="bi bi-clock-history"></i> Límite de seguridad del ciclo iterativo.</div>
+                    </div>
+                </div>
+
+                <hr class="divider-soft" />
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <a th:href="@{/sistemas-lineales}" class="btn-numerica btn-ghost">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn-numerica btn-primary-numerica">
+                        <i class="bi bi-play-circle"></i> Iterar Gauss-Seidel
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-    </section>
+    </div>
+
+    <div class="d-flex align-items-center gap-2 mt-3" style="color:var(--muted);font-size:.78rem;font-weight:600;">
+        <i class="bi bi-lightning-charge" style="color:var(--orange);"></i> Usa x<sub>i</sub><sup>(k+1)</sup> en la misma iteración
+        <span class="ms-auto d-none d-sm-inline">Normalmente converge más rápido que Jacobi</span>
+    </div>
+</section>
 </body>
 </html>

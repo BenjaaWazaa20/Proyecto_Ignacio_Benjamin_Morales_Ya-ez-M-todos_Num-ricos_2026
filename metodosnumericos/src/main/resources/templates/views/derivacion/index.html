@@ -1,46 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
-<head>
-    <title>Unidad V.- Derivación Numérica</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head><title>Derivación Numérica — Numérica</title></head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white">
-                <h3 class="mb-0">
-                    <i class="bi bi-calculator me-2"></i>Unidad V.- Derivación Numérica
-                </h3>
-            </div>
-            <div class="card-body">
-                <p class="lead text-muted">
-                    Aproximación de derivadas analíticas mediante esquemas de diferencias finitas (hacia adelante, hacia atrás y centradas) para órdenes de derivada de 1 a 4.
-                </p>
-                <hr />
-                <div class="row g-4 mt-2">
+<section class="container" style="max-width:780px;">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+    <div>
+      <div class="section-kicker mb-2"><i class="bi bi-activity"></i> Unidad V</div>
+      <h2 class="section-title mb-1" style="font-size:1.5rem;">Derivación Numérica</h2>
+      <p class="section-desc mb-0">Diferencias finitas hacia adelante, atrás y centradas (1º a 4º orden).</p>
+    </div>
+    <a th:href="@{/}" class="btn btn-numerica btn-ghost"><i class="bi bi-arrow-left"></i> Inicio</a>
+  </div>
 
-                    <!-- Diferenciación Numérica -->
-                    <div class="col-md-6">
-                        <div class="card h-100 shadow-sm" style="border-color: #55072c;">
-                            <div class="card-header text-white fw-bold" style="background-color: #b9205d;">
-                                <i class="bi bi-layers-half me-2"></i>Diferenciación Numérica
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <a th:href="@{/derivacion/diferenciacion}" 
-                                   class="list-group-item list-group-item-action flex-column align-items-start py-3">
-                                    <div class="d-flex w-100 justify-content-between mb-1">
-                                        <h6 class="mb-1 fw-bold text-dark">
-                                            <i class="bi bi-cpu me-2" style="color: #8d2323;"></i> Esquemas de Diferencias Finitas
-                                        </h6>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+  <div class="card-numerica">
+    <div class="card-body">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-md-7 p-2">
+          <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-layers-half" style="color:var(--ink);"></i><strong>Diferenciación Numérica</strong></div>
+          <p class="small mb-3" style="color:var(--muted);">Ingresa f(x), punto x₀ y paso h. Compara derivada exacta con aproximaciones y error relativo.</p>
+          <a th:href="@{/derivacion/diferenciacion}" class="btn btn-numerica btn-primary-numerica w-100 justify-content-center">Abrir calculadora <i class="bi bi-arrow-right"></i></a>
+          <div class="d-flex gap-2 mt-3 flex-wrap">
+            <span class="badge-numerica badge-primary">1º orden</span>
+            <span class="badge-numerica badge-primary">2º orden</span>
+            <span class="badge-numerica badge-primary">3º orden</span>
+            <span class="badge-numerica badge-primary">4º orden</span>
+          </div>
         </div>
-    </section>
+        <div class="col-md-5 p-2">
+          <div class="p-3 rounded-3 font-mono small h-100" style="background:var(--surface-2); border:1px solid var(--line);">
+            <div class="small fw-semibold mb-2" style="color:var(--muted); letter-spacing:.04em; text-transform:uppercase;">Fórmulas</div>
+            <div>f'(x) ≈ [f(x+h)−f(x−h)]/2h</div>
+            <div class="mt-2" style="color:var(--muted);">f''(x) ≈ [f(x+h)−2f(x)+f(x−h)]/h²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </body>
 </html>

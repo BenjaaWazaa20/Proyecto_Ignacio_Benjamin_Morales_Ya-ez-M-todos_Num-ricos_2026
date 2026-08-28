@@ -1,50 +1,31 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <body>
-    <nav
-      th:fragment="navbar"
-      class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm"
-    >
-      <div class="container-fluid px-4">
-        <a class="navbar-brand fw-bold" th:href="@{/}">
-          <i class="bi bi-cpu-fill me-2 text-primary"></i>Métodos Numéricos
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/raices}">Raíces de Ecuaciones</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/sistemas-lineales}"
-                >Sistemas Lineales</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/ajuste-curvas}">
-                <i class="bi bi-graph-up me-1"></i> Ajuste de Curvas
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/derivacion}">Derivación</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/integracion}">Integración</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/ecuaciones-diferenciales}"
-                >Ecuaciones Diferenciales</a
-              >
-            </li>
-          </ul>
-        </div>
+<body>
+<nav th:fragment="navbar" class="navbar-numerica">
+  <div class="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between">
+    <a th:href="@{/}" class="d-flex align-items-center gap-2 text-decoration-none">
+      <div class="brand-mark">N</div>
+      <div class="brand-text">
+        <strong>Métodos Numéricos</strong>
+        <small>ITSES · 2026</small>
       </div>
-    </nav>
-  </body>
+    </a>
+
+    <button class="navbar-toggler d-lg-none border-0 shadow-none p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle">
+      <i class="bi bi-list fs-4" style="color:var(--ink);"></i>
+    </button>
+
+    <div class="collapse navbar-collapse flex-grow-0 mt-3 mt-lg-0" id="navbarNav">
+      <div class="nav-pill">
+        <a class="nav-link" th:href="@{/raices}">Raíces</a>
+        <a class="nav-link" th:href="@{/sistemas-lineales}">Lineales</a>
+        <a class="nav-link" th:href="@{/sistemas-no-lineales/punto-fijo}">No Lineales</a>
+        <a class="nav-link" th:href="@{/ajuste-curvas}">Curvas</a>
+        <a class="nav-link" th:href="@{/derivacion}">Derivación</a>
+        <a class="nav-link" th:href="@{/integracion}">Integración</a>
+      </div>
+    </div>
+  </div>
+</nav>
+</body>
 </html>

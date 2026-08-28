@@ -1,103 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
-<head>
-    <title>Unidad IV.- Ajuste de Curvas</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head><title>Ajuste de Curvas — Numérica</title></head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white">
-                <h3 class="mb-0">
-                    <i class="bi bi-graph-up-arrow me-2"></i>Unidad IV.- Ajuste de Curvas
-                </h3>
+<section class="container">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+    <div>
+      <div class="section-kicker mb-2"><i class="bi bi-bezier2"></i> Unidad IV</div>
+      <h2 class="section-title mb-1" style="font-size:1.5rem;">Ajuste de Curvas</h2>
+      <p class="section-desc mb-0">Regresión por mínimos cuadrados e interpolación polinomial.</p>
+    </div>
+    <a th:href="@{/}" class="btn btn-numerica btn-ghost"><i class="bi bi-arrow-left"></i> Inicio</a>
+  </div>
+
+  <div class="card-numerica">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line);">
+            <strong class="d-block mb-1"><i class="bi bi-diagram-2 me-1" style="color:var(--muted);"></i> Regresión</strong>
+            <small class="d-block mb-3" style="color:var(--muted);">Mínimos cuadrados</small>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/ajuste-curvas/regresion-lineal}" class="method-link"><i class="bi bi-graph-up"></i> Regresión Lineal <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/ajuste-curvas/regresion-polinomial}" class="method-link"><i class="bi bi-graph-up-arrow"></i> Regresión Polinomial <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/ajuste-curvas/regresion-multiple}" class="method-link"><i class="bi bi-layers"></i> Regresión Múltiple <i class="bi bi-chevron-right arrow"></i></a>
             </div>
-            <div class="card-body">
-                <p class="lead text-muted">
-                    Aproximación de datos experimentales, regresión por mínimos cuadrados e interpolación polinomial para el análisis numérico de tendencias.
-                </p>
-                <hr />
-                <div class="row g-4 mt-2">
-
-                      <div class="col-md-6">
-                        <div class="card h-100 shadow-sm" style="border-color: #878119;">
-                            <div class="card-header text-white fw-bold" style="background-color: #768719;">
-                                <i class="bi bi-bezier2 me-2"></i>Interpolación Polinomial
-                            </div>
-                            <div class="list-group list-group-flush">
-                                <a th:href="@{/ajuste-curvas/diferencias-divididas}" 
-                                   class="list-group-item list-group-item-action flex-column align-items-start py-3">
-                                    <div class="d-flex w-100 justify-content-between mb-1">
-                                        <h6 class="mb-1 fw-bold text-dark">
-                                            <i class="bi bi-calculator me-2" style="color: #4a8719;"></i> Diferencias Divididas de Newton
-                                        </h6>
-                                        
-                                    </div>
-                                    
-                                </a>
-
-                                <a th:href="@{/ajuste-curvas/lagrange}" 
-                                   class="list-group-item list-group-item-action flex-column align-items-start py-3">
-                                    <div class="d-flex w-100 justify-content-between mb-1">
-                                        <h6 class="mb-1 fw-bold text-dark">
-                                            <i class="bi bi-calculator me-2" style="color: #315f0c;"></i> Poliniomio de interpolación de Lagrange con un grado máximo de 4 orden.
-                                        </h6>
-                                        
-                                    </div>
-                                    
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 1. Regresión -->
-                    <div class="col-md-6">
-                        <div class="card h-100 shadow-sm" style="border-color: #d29025;">
-                            <div class="card-header text-white fw-bold" style="background-color: #c87d0d;">
-                                <i class="bi bi-diagram-2-fill me-2"></i>Regresión por Mínimos Cuadrados
-                             </div>
-                            <div class="list-group list-group-flush">
-                                <a th:href="@{/ajuste-curvas/regresion-lineal}" 
-                                   class="list-group-item list-group-item-action flex-column align-items-start py-3">
-                                    <div class="d-flex w-100 justify-content-between mb-1">
-                                        <h6 class="mb-1 fw-bold text-dark">
-                                            <i class="bi bi-graph-up me-2" style="color: #a5770b;"></i> Regresión Lineal
-                                        </h6>
-                                    </div>
-                                   
-                                </a>
-                                <a th:href="@{/ajuste-curvas/regresion-polinomial}" 
-                                   class="list-group-item list-group-item-action flex-column align-items-start py-3">
-                                    <div class="d-flex w-100 justify-content-between mb-1">
-                                        <h6 class="mb-1 fw-bold text-dark">
-                                            <i class="bi bi-graph-up me-2" style="color: #b7c10a;"></i> Regresión Polinomial
-                                        </h6>
-                                    </div>
-                                   
-                                </a>
-                                <a th:href="@{/ajuste-curvas/regresion-multiple}" 
-                                   class="list-group-item list-group-item-action flex-column align-items-start py-3">
-                                    <div class="d-flex w-100 justify-content-between mb-1">
-                                        <h6 class="mb-1 fw-bold text-dark">
-                                            <i class="bi bi-graph-up me-2" style="color: #e5ef31;"></i> Regresión lineal múltiple
-                                        </h6>
-                                    </div>
-                                   
-                                </a>
-                            </div>
-
-                            
-                                
-                            
-                        </div>
-                    </div>
-
-                    <!-- 2. Interpolación -->
-                  
-
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
+        <div class="col-md-6">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line);">
+            <strong class="d-block mb-1"><i class="bi bi-bezier me-1" style="color:var(--muted);"></i> Interpolación</strong>
+            <small class="d-block mb-3" style="color:var(--muted);">Pasa por los puntos</small>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/ajuste-curvas/diferencias-divididas}" class="method-link"><i class="bi bi-calculator"></i> Diferencias Divididas <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/ajuste-curvas/lagrange}" class="method-link"><i class="bi bi-braces"></i> Lagrange (≤4º) <i class="bi bi-chevron-right arrow"></i></a>
+            </div>
+            <div class="small mt-3 font-mono p-2 rounded-2" style="background:var(--surface-2); border:1px solid var(--line); color:var(--muted);">P<sub>n</sub>(x) = Σ L<sub>i</sub>(x)·y<sub>i</sub></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </body>
 </html>

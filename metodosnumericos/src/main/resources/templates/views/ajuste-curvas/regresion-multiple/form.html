@@ -5,77 +5,113 @@
     <title>Regresión Lineal Múltiple</title>
 </head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0"><i class="bi bi-graph-up-arrow me-2"></i>Regresión Lineal Múltiple (2 Variables)</h4>
+<section class="container my-4 animate-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-10">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a th:href="@{/ajuste-curvas}" class="btn-numerica btn-ghost py-2 px-3" style="text-decoration:none;font-size:.82rem">
+                    <i class="bi bi-arrow-left"></i> Ajuste de curvas
+                </a>
+                <span class="text-muted" style="font-size:.82rem">/</span>
+                <span class="badge-numerica badge-dark" style="font-size:.68rem">Regresión múltiple</span>
             </div>
-            <div class="card-body">
-                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <span th:text="${errorMessage}">Error</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+            <div class="form-card">
+                <div class="form-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-bubble ib-amber" style="width:48px;height:48px;border-radius:14px;font-size:1.35rem">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" style="font-size:1.45rem">Regresión Lineal Múltiple</h3>
+                            <p class="mb-0">Modelo con 2 variables independientes: y = b₀ + b₁·x₁ + b₂·x₂</p>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Selector del número de puntos -->
-                <form th:action="@{/ajuste-curvas/regresion-multiple}" method="get" class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <label for="puntos" class="form-label fw-bold">Número de Puntos (N &ge; 4):</label>
-                        <input type="number" id="puntos" name="puntos" class="form-control" 
-                               th:value="${regresionMultipleDTO.numeroPuntos}" min="4" required />
+                <div class="form-body">
+                    <div th:if="${errorMessage}" class="alert-numerica alert-danger-numerica mb-4" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill fs-5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="d-block" style="font-size:.85rem">No se pudo procesar</strong>
+                            <span th:text="${errorMessage}">Error</span>
+                        </div>
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
                     </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-outline-primary w-100">
-                            <i class="bi bi-arrow-repeat"></i> Redimensionar
-                        </button>
-                    </div>
-                </form>
 
-                <!-- Formulario de entrada de datos -->
-                <form th:action="@{/ajuste-curvas/regresion-multiple}" th:object="${regresionMultipleDTO}" method="post">
-                    <input type="hidden" th:field="*{numeroPuntos}" />
+                    <!-- Selector del número de puntos -->
+                    <form th:action="@{/ajuste-curvas/regresion-multiple}" method="get" class="mb-4">
+                        <label class="label-numerica"><i class="bi bi-sliders"></i> Configuración del conjunto</label>
+                        <div class="p-3" style="background:#fffbeb;border:1px solid #fde68a;border-radius:16px">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-7">
+                                    <label for="puntos" class="label-numerica" style="text-transform:none;letter-spacing:0">Número de puntos (N ≥ 4)</label>
+                                    <input type="number" id="puntos" name="puntos" class="form-control input-numerica font-mono"
+                                           th:value="${regresionMultipleDTO.numeroPuntos}" min="4" required placeholder="Ej. 6" />
+                                    <div class="help-numerica"><i class="bi bi-info-circle"></i> Se requieren al menos 4 mediciones para 2 regresores.</div>
+                                </div>
+                                <div class="col-md-5 d-flex">
+                                    <button type="submit" class="btn-numerica btn-ghost w-100 justify-content-center" style="border-color:#f59e0b;color:#92400e">
+                                        <i class="bi bi-arrow-repeat"></i> Redimensionar tabla
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
-                    <div class="table-responsive mb-3">
-                        <table class="table table-bordered align-middle text-center">
-                            <thead class="table-secondary">
+                    <hr class="divider-soft" />
+
+                    <!-- Formulario de entrada de datos -->
+                    <form th:action="@{/ajuste-curvas/regresion-multiple}" th:object="${regresionMultipleDTO}" method="post">
+                        <input type="hidden" th:field="*{numeroPuntos}" />
+
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <label class="label-numerica mb-0"><i class="bi bi-table"></i> Datos de entrada X₁ · X₂ · Y</label>
+                            <span class="badge-numerica" style="background:#fffbeb;color:#92400e;border:1px solid #fde68a" th:text="*{numeroPuntos} + ' filas'"></span>
+                        </div>
+                        <div class="table-numerica table-responsive mb-3">
+                            <table class="table mb-0 align-middle text-center">
+                                <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th style="width:8%">#</th>
                                     <th>Variable X1<sub>i</sub></th>
                                     <th>Variable X2<sub>i</sub></th>
-                                    <th>Variable Dependiente Y<sub>i</sub></th>
+                                    <th>Variable Y<sub>i</sub></th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 <tr th:each="i : ${#numbers.sequence(0, regresionMultipleDTO.numeroPuntos - 1)}">
-                                    <td class="fw-bold" th:text="${i + 1}">1</td>
+                                    <td class="fw-bold cell-accent" th:text="${i + 1}">1</td>
                                     <td>
-                                        <input type="number" step="any" class="form-control text-center" 
-                                               th:field="*{valoresX1[__${i}__]}" required />
+                                        <input type="number" step="any" class="form-control input-numerica text-center font-mono"
+                                               th:field="*{valoresX1[__${i}__]}" required placeholder="x₁" />
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="form-control text-center" 
-                                               th:field="*{valoresX2[__${i}__]}" required />
+                                        <input type="number" step="any" class="form-control input-numerica text-center font-mono"
+                                               th:field="*{valoresX2[__${i}__]}" required placeholder="x₂" />
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="form-control text-center" 
-                                               th:field="*{valoresY[__${i}__]}" required />
+                                        <input type="number" step="any" class="form-control input-numerica text-center font-mono"
+                                               th:field="*{valoresY[__${i}__]}" required placeholder="y" />
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="help-numerica"><i class="bi bi-lightbulb"></i> Cada fila representa una observación (x₁, x₂, y).</div>
 
-                    <div class="d-flex justify-content-end gap-2">
-                        <a th:href="@{/ajuste-curvas}" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-calculator"></i> Resolver
-                        </button>
-                    </div>
-                </form>
+                        <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2">
+                            <a th:href="@{/ajuste-curvas}" class="btn-numerica btn-ghost">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn-numerica btn-primary-numerica">
+                                <i class="bi bi-calculator"></i> Resolver modelo
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 </body>
 </html>

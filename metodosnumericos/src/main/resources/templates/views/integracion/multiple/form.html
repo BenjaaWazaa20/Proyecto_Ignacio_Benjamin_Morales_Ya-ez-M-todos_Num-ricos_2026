@@ -2,33 +2,99 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
 <head><title>Integración Múltiple</title></head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white"><h4 class="mb-0">Integración Múltiple (2 Variables)</h4></div>
-            <div class="card-body">
-                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                <form th:action="@{/integracion/multiple}" th:object="${multipleRequest}" method="post">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Función f(x,y)</label>
-                        <input type="text" class="form-control" th:field="*{fxy}" placeholder="Ej. x^2 + y^2" required>
+<section class="container my-4 animate-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a th:href="@{/integracion}" class="btn-numerica btn-ghost py-2 px-3" style="text-decoration:none;font-size:.82rem">
+                    <i class="bi bi-arrow-left"></i> Integración
+                </a>
+                <span class="text-muted" style="font-size:.82rem">/</span>
+                <span class="badge-numerica badge-dark" style="font-size:.68rem">Múltiple 2D</span>
+            </div>
+
+            <div class="form-card">
+                <div class="form-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-bubble ib-cyan" style="width:48px;height:48px;border-radius:14px;font-size:1.35rem">
+                            <i class="bi bi-grid-3x3"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" style="font-size:1.42rem">Integración Múltiple (2 Variables)</h3>
+                            <p class="mb-0">Integral doble ∫∫ f(x,y) dx dy con regla del trapecio en malla rectangular.</p>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3"><label>Límite ax</label><input type="number" step="any" class="form-control" th:field="*{ax}" required></div>
-                        <div class="col-md-4 mb-3"><label>Límite bx</label><input type="number" step="any" class="form-control" th:field="*{bx}" required></div>
-                        <div class="col-md-4 mb-3"><label>Segmentos nx</label><input type="number" class="form-control" th:field="*{nx}" required></div>
+                </div>
+                <div class="form-body">
+                    <div th:if="${error}" class="alert-numerica alert-danger-numerica mb-4" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill fs-5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="d-block" style="font-size:.85rem">Error al procesar</strong>
+                            <span th:text="${error}">Error</span>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3"><label>Límite ay</label><input type="number" step="any" class="form-control" th:field="*{ay}" required></div>
-                        <div class="col-md-4 mb-3"><label>Límite by</label><input type="number" step="any" class="form-control" th:field="*{by}" required></div>
-                        <div class="col-md-4 mb-3"><label>Segmentos ny</label><input type="number" class="form-control" th:field="*{ny}" required></div>
-                    </div>
-                    <div class="d-flex justify-content-end gap-2">
-                        <a th:href="@{/integracion}" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-success">Resolver</button>
-                    </div>
-                </form>
+                    <form th:action="@{/integracion/multiple}" th:object="${multipleRequest}" method="post">
+                        <div class="mb-4">
+                            <label class="label-numerica"><i class="bi bi-braces"></i> Función f(x,y)</label>
+                            <input type="text" class="form-control input-numerica font-mono" th:field="*{fxy}" placeholder="Ej. x^2 + y^2" required>
+                            <div class="help-numerica"><i class="bi bi-info-circle"></i> Variables x e y. Operadores + − * / ^ y funciones trigonométricas.</div>
+                        </div>
+
+                        <div class="p-3 mb-3" style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:16px">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge-numerica" style="background:#0e7490;color:white">Eje X</span>
+                                <span class="help-numerica mb-0">Límites y partición en x</span>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="label-numerica" style="text-transform:none;letter-spacing:0">Límite ax</label>
+                                    <input type="number" step="any" class="form-control input-numerica font-mono text-center" th:field="*{ax}" required placeholder="ax">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="label-numerica" style="text-transform:none;letter-spacing:0">Límite bx</label>
+                                    <input type="number" step="any" class="form-control input-numerica font-mono text-center" th:field="*{bx}" required placeholder="bx">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="label-numerica" style="text-transform:none;letter-spacing:0">Segmentos nx</label>
+                                    <input type="number" class="form-control input-numerica font-mono text-center" th:field="*{nx}" required placeholder="nx">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 mb-4" style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:16px">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge-numerica" style="background:#0f766e;color:white">Eje Y</span>
+                                <span class="help-numerica mb-0">Límites y partición en y</span>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="label-numerica" style="text-transform:none;letter-spacing:0">Límite ay</label>
+                                    <input type="number" step="any" class="form-control input-numerica font-mono text-center" th:field="*{ay}" required placeholder="ay">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="label-numerica" style="text-transform:none;letter-spacing:0">Límite by</label>
+                                    <input type="number" step="any" class="form-control input-numerica font-mono text-center" th:field="*{by}" required placeholder="by">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="label-numerica" style="text-transform:none;letter-spacing:0">Segmentos ny</label>
+                                    <input type="number" class="form-control input-numerica font-mono text-center" th:field="*{ny}" required placeholder="ny">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <a th:href="@{/integracion}" class="btn-numerica btn-ghost">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn-numerica btn-primary-numerica">
+                                <i class="bi bi-calculator"></i> Resolver integral doble
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 </body>
 </html>

@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/base :: layout('Método en construcción', ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head><title>Método en construcción — Numérica</title></head>
 <body>
-    <section>
-        <div class="container mt-5 text-center">
-            <div class="alert alert-warning shadow-sm" role="alert">
-                <h4 class="alert-heading">🚧 Método en construcción</h4>
-                <p>
-                    Este método aún no ha sido implementado.<br>
-                    Pronto estará disponible con su lógica matemática completa.
-                </p>
-                <hr>
-                <a th:href="@{/raices}" class="btn btn-primary">
-                    ⬅ Volver a raíces
-                </a>
-            </div>
-        </div>
-    </section>
+<section class="container" style="max-width:640px;">
+  <div class="card-numerica text-center p-5">
+    <div class="icon-bubble ib-amber mx-auto mb-3" style="width:64px; height:64px; font-size:1.8rem;"><i class="bi bi-tools"></i></div>
+    <h3 class="section-title mb-2">Método en construcción</h3>
+    <p class="section-desc mb-4">Este método aún no ha sido implementado. Pronto estará disponible con su lógica matemática completa y trazas detalladas.</p>
+    <div class="d-flex justify-content-center gap-2">
+      <a th:href="@{/raices}" class="btn btn-numerica btn-primary-numerica"><i class="bi bi-arrow-left"></i> Volver a raíces</a>
+      <a th:href="@{/}" class="btn btn-numerica btn-ghost"><i class="bi bi-house"></i> Inicio</a>
+    </div>
+  </div>
+</section>
 </body>
 </html>

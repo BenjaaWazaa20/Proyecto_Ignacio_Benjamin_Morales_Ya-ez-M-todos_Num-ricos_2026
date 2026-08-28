@@ -5,77 +5,95 @@
     <title>Solución - Método de Jacobi</title>
 </head>
 <body>
-    <section class="container-fluid my-4 px-4">
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0"><i class="bi bi-check-circle-fill text-success me-2"></i>Resultados - Método Iterativo de Jacobi</h4>
-                <span class="badge bg-primary fs-6" th:text="${resultado.dimension + 'x' + resultado.dimension}">3x3</span>
-            </div>
-            <div class="card-body">
+<section class="container-fluid px-4 py-2 animate-in" style="max-width:1280px; margin:0 auto;">
 
-                <!-- Observaciones -->
-                <div class="mb-4">
-                    <div th:each="obs : ${resultado.observaciones}" 
-                         class="alert alert-info alert-dismissible fade show" role="alert">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        <span th:text="${obs}">Observación</span>
-                    </div>
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <span class="section-kicker"><i class="bi bi-layers me-1"></i> Iterativos</span>
+        <span class="text-muted small">/</span>
+        <span class="small fw-semibold text-muted">Jacobi</span>
+        <span class="badge-numerica badge-dark ms-auto" th:text="${resultado.dimension + '×' + resultado.dimension}">3×3</span>
+    </div>
+
+    <div class="card-numerica mb-4">
+        <div class="card-header-numerica">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-bubble ib-amber"><i class="bi bi-diagram-3"></i></div>
+                <div>
+                    <h4 class="mb-0 fw-bold font-display" style="letter-spacing:-.02em;">Resultados — Jacobi</h4>
+                    <small class="text-muted fw-semibold">Método iterativo con actualización simultánea</small>
                 </div>
+            </div>
+            <span class="badge-numerica badge-success d-none d-md-inline-flex"><i class="bi bi-check-circle-fill"></i> Iteraciones completas</span>
+        </div>
 
-                <!-- Solución Final -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-12">
-                        <div class="card bg-light border-success">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold text-success mb-3"><i class="bi bi-bullseye me-2"></i>Vector Solución Final [X]</h5>
-                                <div class="row text-center">
-                                    <div class="col" th:each="val, iterStat : ${resultado.vectorSolucionX}">
-                                        <div class="p-3 bg-white border rounded shadow-sm">
-                                            <span class="text-muted d-block small" th:text="'x' + ${iterStat.index + 1}">x1</span>
-                                            <span class="fs-4 fw-bold text-primary" 
-                                                  th:text="${#numbers.formatDecimal(val, 1, 'POINT', 6, 'POINT')}">0.000000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <div th:if="${resultado.observaciones != null and !#lists.isEmpty(resultado.observaciones)}" class="px-4 pt-4">
+            <div th:each="obs : ${resultado.observaciones}" class="alert-numerica alert-success-numerica mb-2">
+                <i class="bi bi-info-circle-fill mt-1"></i>
+                <span th:text="${obs}">Observación</span>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="result-highlight">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="icon-bubble ib-emerald" style="width:38px;height:38px;border-radius:12px;font-size:1rem;"><i class="bi bi-bullseye"></i></div>
+                    <h5 class="mb-0 fw-bold font-display">Vector Solución Final [X]</h5>
+                    <span class="badge-numerica badge-dark ms-auto" th:text="${#lists.size(resultado.iteraciones) + ' iteraciones'}">n iter</span>
+                </div>
+                <div class="row g-2 text-center">
+                    <div class="col-6 col-md" th:each="val, iterStat : ${resultado.vectorSolucionX}">
+                        <div class="bg-white border rounded-3 p-3" style="border-color:#fde68a !important; box-shadow:0 2px 8px rgba(245,158,11,.08);">
+                            <span class="badge-numerica mb-2" th:text="'x' + ${iterStat.index + 1}">x1</span>
+                            <div class="font-mono fw-bold fs-5" style="color:#b45309; letter-spacing:-.02em;" th:text="${#numbers.formatDecimal(val, 1, 'POINT', 6, 'POINT')}">0.000000</div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Tabla de Iteraciones -->
-                <h5 class="fw-bold mb-3"><i class="bi bi-table me-2"></i>Tabla de Convergencia por Iteraciones</h5>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered align-middle text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Iteración</th>
-                                <th th:each="j : ${#numbers.sequence(1, resultado.dimension)}" th:text="'x' + ${j}">x1</th>
-                                <th>Error Relativo Max. (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="fila : ${resultado.iteraciones}">
-                                <td class="fw-bold" th:text="${fila.iteracion}">1</td>
-                                <td th:each="val : ${fila.vectorX}" 
-                                    th:text="${#numbers.formatDecimal(val, 1, 'POINT', 6, 'POINT')}">0.000000</td>
-                                <td>
-                                    <span class="badge" 
-                                          th:classappend="${fila.errorRelativo < 1.0} ? 'bg-success' : 'bg-warning text-dark'"
-                                          th:text="${#numbers.formatDecimal(fila.errorRelativo, 1, 'POINT', 6, 'POINT')} + '%'">0.000000%</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Botón de retorno -->
-                <div class="d-flex justify-content-start mt-4">
-                    <a th:href="@{/sistemas-lineales/jacobi}" class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-left me-1"></i>Regresar a Formulario
-                    </a>
-                </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="card-numerica">
+        <div class="card-header-numerica">
+            <h6 class="mb-0 fw-bold d-flex align-items-center gap-2"><i class="bi bi-table text-primary"></i> Tabla de Convergencia por Iteraciones</h6>
+            <span class="badge-numerica badge-primary d-none d-md-inline-flex"><i class="bi bi-graph-up"></i> Error relativo %</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-numerica table-hover align-middle text-center mb-0" style="border:none; border-radius:0;">
+                    <thead>
+                    <tr>
+                        <th>Iteración</th>
+                        <th th:each="j : ${#numbers.sequence(1, resultado.dimension)}" th:text="'x' + ${j}">x1</th>
+                        <th>Error Relativo Máx. (%)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="fila : ${resultado.iteraciones}">
+                        <td class="fw-bold font-mono" th:text="${fila.iteracion}">1</td>
+                        <td th:each="val : ${fila.vectorX}" class="font-mono" th:text="${#numbers.formatDecimal(val, 1, 'POINT', 6, 'POINT')}">0.000000</td>
+                        <td>
+                            <span class="badge-numerica"
+                                  th:classappend="${fila.errorRelativo < 1.0} ? ' badge-success' : ' badge-primary'"
+                                  style="border:1px solid currentColor; font-size:.72rem;"
+                                  th:text="${#numbers.formatDecimal(fila.errorRelativo, 1, 'POINT', 6, 'POINT')} + '%'">0.000000%</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-3 py-3 help-numerica border-top"><i class="bi bi-lightbulb"></i> Jacobi calcula todos los nuevos valores a partir de la iteración anterior únicamente.</div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mt-4">
+        <a th:href="@{/sistemas-lineales/jacobi}" class="btn-numerica btn-ghost">
+            <i class="bi bi-arrow-left"></i> Regresar a Formulario
+        </a>
+        <a href="/sistemas-lineales" class="btn-numerica btn-primary-numerica ms-auto">
+            Ver otros métodos <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+
+</section>
 </body>
 </html>

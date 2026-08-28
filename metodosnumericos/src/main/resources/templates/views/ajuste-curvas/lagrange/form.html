@@ -5,60 +5,85 @@
     <title>Interpolación de Lagrange</title>
 </head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="bi bi-graph-up me-2"></i>Interpolación - Polinomio de Lagrange</h4>
+<section class="container my-4 animate-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a th:href="@{/}" class="btn-numerica btn-ghost py-2 px-3" style="text-decoration:none;font-size:.82rem">
+                    <i class="bi bi-arrow-left"></i> Inicio
+                </a>
+                <span class="text-muted" style="font-size:.82rem">/</span>
+                <span class="badge-numerica badge-dark" style="font-size:.68rem">Lagrange</span>
             </div>
-            <div class="card-body">
-                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <span th:text="${errorMessage}">Error</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
 
-                <form th:action="@{/ajuste-curvas/lagrange}" th:object="${lagrangeDTO}" method="post">
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label for="numeroPuntos" class="form-label fw-bold">Número de Puntos (Grado Máx. 4):</label>
-                            <select id="numeroPuntos" class="form-select" th:field="*{numeroPuntos}" onchange="generarCamposTabla()" required>
-                                <option value="" disabled selected>-- Selecciona Puntos (2 a 5) --</option>
-                                <option value="2">2 Puntos (Grado 1)</option>
-                                <option value="3">3 Puntos (Grado 2)</option>
-                                <option value="4">4 Puntos (Grado 3)</option>
-                                <option value="5">5 Puntos (Grado 4)</option>
-                            </select>
+            <div class="form-card">
+                <div class="form-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-bubble ib-amber" style="width:48px;height:48px;border-radius:14px;font-size:1.35rem">
+                            <i class="bi bi-share"></i>
                         </div>
-                        <div class="col-md-6">
-                            <label for="xEvaluar" class="form-label fw-bold">Valor X a Evaluar P(X) (Opcional):</label>
-                            <input type="number" step="any" class="form-control" id="xEvaluar" th:field="*{xEvaluar}" placeholder="Ej. 2.5" />
+                        <div>
+                            <h3 class="mb-0" style="font-size:1.45rem">Interpolación — Polinomio de Lagrange</h3>
+                            <p class="mb-0">Construye el polinomio interpolante y evalúa opcionalmente en P(x).</p>
                         </div>
                     </div>
+                </div>
+                <div class="form-body">
+                    <div th:if="${errorMessage}" class="alert-numerica alert-danger-numerica mb-4" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill fs-5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="d-block" style="font-size:.85rem">No se pudo procesar</strong>
+                            <span th:text="${errorMessage}">Error</span>
+                        </div>
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
 
-                    <!-- Tabla Dinámica de Puntos -->
-                    <div id="contenedorTabla" class="table-responsive mb-4 d-none">
-                        <table class="table table-bordered text-center align-middle">
-                            <thead class="table-light">
+                    <form th:action="@{/ajuste-curvas/lagrange}" th:object="${lagrangeDTO}" method="post">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="numeroPuntos" class="label-numerica"><i class="bi bi-hash"></i> Número de puntos</label>
+                                <select id="numeroPuntos" class="form-select input-numerica" th:field="*{numeroPuntos}" onchange="generarCamposTabla()" required>
+                                    <option value="" disabled selected>-- Selecciona puntos (2 a 5) --</option>
+                                    <option value="2">2 Puntos — Grado 1</option>
+                                    <option value="3">3 Puntos — Grado 2</option>
+                                    <option value="4">4 Puntos — Grado 3</option>
+                                    <option value="5">5 Puntos — Grado 4</option>
+                                </select>
+                                <div class="help-numerica"><i class="bi bi-info-circle"></i> Grado máximo 4 (5 puntos).</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="xEvaluar" class="label-numerica"><i class="bi bi-bullseye"></i> Valor X a evaluar P(X) <span class="fw-normal text-capitalize" style="letter-spacing:0;color:#94a3b8">— opcional</span></label>
+                                <input type="number" step="any" class="form-control input-numerica font-mono" id="xEvaluar" th:field="*{xEvaluar}" placeholder="Ej. 2.5" />
+                                <div class="help-numerica"><i class="bi bi-lightbulb"></i> Deja vacío si solo quieres el polinomio.</div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla Dinámica de Puntos -->
+                        <div id="contenedorTabla" class="table-numerica table-responsive mb-4 d-none">
+                            <table class="table mb-0 text-center align-middle">
+                                <thead>
                                 <tr>
-                                    <th>Punto (i)</th>
+                                    <th style="width:15%">Punto (i)</th>
                                     <th>Valor X<sub>i</sub></th>
                                     <th>Valor Y<sub>i</sub> = f(X<sub>i</sub>)</th>
                                 </tr>
-                            </thead>
-                            <tbody id="bodyPuntos">
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody id="bodyPuntos">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="help-numerica mb-4 d-flex d-none" id="helpTabla"><i class="bi bi-info-circle"></i> Completa los pares (xᵢ , yᵢ) requeridos.</div>
 
-                    <div class="d-flex justify-content-end gap-2 mt-4">
-                        <a th:href="@{/}" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-play-circle"></i> Calcular Polinomio
-                        </button>
-                    </div>
-                </form>
+                        <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2">
+                            <a th:href="@{/}" class="btn-numerica btn-ghost">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn-numerica btn-primary-numerica">
+                                <i class="bi bi-play-circle"></i> Calcular polinomio
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -67,6 +92,7 @@
                 const n = parseInt(document.getElementById('numeroPuntos').value);
                 const container = document.getElementById('contenedorTabla');
                 const tbody = document.getElementById('bodyPuntos');
+                const help = document.getElementById('helpTabla');
                 tbody.innerHTML = '';
 
                 if (!n || n < 2 || n > 5) return;
@@ -74,16 +100,18 @@
                 for (let i = 0; i < n; i++) {
                     const row = `
                         <tr>
-                            <td class="fw-bold">${i}</td>
-                            <td><input type="number" step="any" class="form-control" name="valoresX[${i}]" required placeholder="x${i}"></td>
-                            <td><input type="number" step="any" class="form-control" name="valoresY[${i}]" required placeholder="y${i}"></td>
+                            <td class="fw-bold cell-accent">${i}</td>
+                            <td><input type="number" step="any" class="form-control input-numerica text-center font-mono" name="valoresX[${i}]" required placeholder="x${i}"></td>
+                            <td><input type="number" step="any" class="form-control input-numerica text-center font-mono" name="valoresY[${i}]" required placeholder="y${i}"></td>
                         </tr>
                     `;
                     tbody.innerHTML += row;
                 }
                 container.classList.remove('d-none');
+                if (help) help.classList.remove('d-none');
             }
         </script>
-    </section>
+    </div>
+</section>
 </body>
 </html>

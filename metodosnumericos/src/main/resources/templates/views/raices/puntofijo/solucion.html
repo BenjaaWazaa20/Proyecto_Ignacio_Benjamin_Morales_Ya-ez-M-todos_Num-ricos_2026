@@ -6,33 +6,73 @@
 </head>
 <body>
     <section class="container my-4">
-        <h2 class="mb-4 text-primary">Resultados: Método de Iteración de Punto Fijo</h2>
-
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-hover table-striped table-bordered mb-0 align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col" class="text-center">Iteración</th>
-                        <th scope="col" class="text-center">X0</th>
-                        <th scope="col" class="text-center">G(X0)</th>
-                        <th scope="col" class="text-center">Error Relativo (%)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="fila : ${resultados}">
-                        <td class="text-center fw-bold" th:text="${fila.iteracion}">1</td>
-                        <td class="text-end" th:text="${#numbers.formatDecimal(fila.x0, 1, 6)}">0.0</td>
-                        <td class="text-end" th:text="${#numbers.formatDecimal(fila.gx0, 1, 6)}">0.0</td>
-                        <td class="text-end" th:text="${#numbers.formatDecimal(fila.er, 1, 6)}">0.0</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3 animate-in">
+            <span class="section-kicker"><i class="bi bi-infinity"></i> Raíces · Método abierto</span>
+            <span class="badge-numerica badge-primary ms-auto" th:if="${resultados != null}" th:text="${#lists.size(resultados)} + ' iteraciones'">0 iteraciones</span>
+            <span class="badge-numerica badge-dark"><i class="bi bi-arrow-repeat"></i> Punto Fijo</span>
         </div>
 
-        <div class="mt-4">
-            <a th:href="@{/raices}" class="btn btn-primary">
-                <i class="bi bi-arrow-left me-1"></i> Regresar
-            </a>
+        <div class="card-numerica animate-in" style="animation-delay:.06s">
+            <div class="card-header-numerica flex-wrap">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-bubble ib-violet"><i class="bi bi-arrow-clockwise"></i></div>
+                    <div>
+                        <h4 class="section-title mb-0" style="font-size:1.28rem">Resultados — Iteración de Punto Fijo</h4>
+                        <small class="text-muted fw-semibold">Convergencia g(x) → x · X<sub>0</sub> → g(X<sub>0</sub>)</small>
+                    </div>
+                </div>
+                <span class="badge-numerica badge-success d-none d-md-inline-flex"><i class="bi bi-cpu"></i> g(x) iterativo</span>
+            </div>
+
+            <div class="px-3 pt-3" th:if="${resultados != null and !resultados.isEmpty()}" th:with="ultimo=${resultados[resultados.size() - 1]}">
+                <div class="result-highlight d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-bubble ib-violet" style="width:40px;height:40px;font-size:1rem"><i class="bi bi-bullseye"></i></div>
+                        <div>
+                            <div class="small fw-bold text-uppercase" style="letter-spacing:.08em;color:var(--muted);font-size:.66rem">Raíz aproximada · G(X0)</div>
+                            <div class="font-mono fw-bold" style="font-size:1.22rem;letter-spacing:-.02em;color:var(--ink)" th:text="${#numbers.formatDecimal(ultimo.gx0, 1, 6)}">0.000000</div>
+                            <div class="small text-muted font-mono" th:text="'X0 = ' + ${#numbers.formatDecimal(ultimo.x0, 1, 6)}">X0 = 0.000000</div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge-numerica badge-success"><i class="bi bi-flag"></i> Iteración <span th:text="${ultimo.iteracion}">n</span></span>
+                        <div class="small font-mono mt-2" style="color:var(--muted)">Error relativo <strong class="font-mono" style="color:var(--ink)" th:text="${#numbers.formatDecimal(ultimo.er, 1, 6)} + '%'">0.000000%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-0 pt-3">
+                <div class="table-responsive">
+                    <table class="table table-numerica table-hover align-middle text-center mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Iteración</th>
+                                <th scope="col" class="text-center">X0</th>
+                                <th scope="col" class="text-center">G(X0)</th>
+                                <th scope="col" class="text-center">Error Relativo (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="fila : ${resultados}">
+                                <td class="text-center"><span class="badge-numerica badge-dark" style="font-size:.74rem;padding:.28rem .55rem" th:text="${fila.iteracion}">1</span></td>
+                                <td class="font-mono text-center" th:text="${#numbers.formatDecimal(fila.x0, 1, 6)}">0.0</td>
+                                <td class="font-mono text-center cell-accent" th:text="${#numbers.formatDecimal(fila.gx0, 1, 6)}">0.0</td>
+                                <td class="text-center"><span class="badge-numerica badge-primary font-mono" style="text-transform:none;letter-spacing:0" th:text="${#numbers.formatDecimal(fila.er, 1, 6)}">0.0</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-3 border-top">
+                    <div class="d-flex align-items-center gap-2 small text-muted">
+                        <i class="bi bi-lightbulb text-primary"></i>
+                        <span>G(X0) en <strong style="color:var(--primary-600)">accent</strong> · Criterio |g'(x)| &lt; 1 para convergencia</span>
+                    </div>
+                    <a th:href="@{/raices}" class="btn-numerica btn-ghost">
+                        <i class="bi bi-arrow-left"></i> Regresar
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 </body>

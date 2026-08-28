@@ -5,56 +5,83 @@
     <title>Diferencias Divididas de Newton (Grado Máx. 4)</title>
 </head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="bi bi-graph-up me-2"></i>Diferencias Divididas de Newton (Máx. Orden 4)</h4>
+<section class="container my-4 animate-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a th:href="@{/home}" class="btn-numerica btn-ghost py-2 px-3" style="text-decoration:none;font-size:.82rem">
+                    <i class="bi bi-arrow-left"></i> Ajuste de curvas
+                </a>
+                <span class="text-muted" style="font-size:.82rem">/</span>
+                <span class="badge-numerica badge-dark" style="font-size:.68rem">Newton — Diferencias divididas</span>
             </div>
-            <div class="card-body">
-                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <span th:text="${errorMessage}">Error</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
 
-                <form th:action="@{/ajuste-curvas/diferencias-divididas}" th:object="${requestDTO}" method="post">
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label for="numeroPuntos" class="form-label fw-bold">Número de Puntos (N: 2 a 5):</label>
-                            <input type="number" min="2" max="5" class="form-control" id="numeroPuntos" th:field="*{numeroPuntos}" required onchange="generarFilasPuntos()" />
-                            <div class="form-text">2 puntos = Orden 1, 3 puntos = Orden 2, 4 puntos = Orden 3, 5 puntos = Orden 4.</div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-bubble ib-amber" style="width:48px;height:48px;border-radius:14px;font-size:1.35rem">
+                            <i class="bi bi-diagram-3"></i>
                         </div>
-                        <div class="col-md-6">
-                            <label for="xEvaluar" class="form-label fw-bold">Valor X a Evaluar (Opcional):</label>
-                            <input type="number" step="any" class="form-control" id="xEvaluar" th:field="*{xEvaluar}" placeholder="Ej. 2.5" />
+                        <div>
+                            <h3 class="mb-0" style="font-size:1.42rem">Diferencias Divididas de Newton</h3>
+                            <p class="mb-0">Interpolación por tabla de diferencias — orden máximo 4.</p>
                         </div>
                     </div>
+                </div>
+                <div class="form-body">
+                    <div th:if="${errorMessage}" class="alert-numerica alert-danger-numerica mb-4" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill fs-5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="d-block" style="font-size:.85rem">No se pudo procesar</strong>
+                            <span th:text="${errorMessage}">Error</span>
+                        </div>
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
 
-                    <h5 class="fw-bold text-secondary mb-3">Puntos de Entrada (X, Y)</h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered align-middle text-center" id="tablaPuntos">
-                            <thead class="table-dark">
+                    <form th:action="@{/ajuste-curvas/diferencias-divididas}" th:object="${requestDTO}" method="post">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="numeroPuntos" class="label-numerica"><i class="bi bi-hash"></i> Número de puntos (N: 2 a 5)</label>
+                                <input type="number" min="2" max="5" class="form-control input-numerica font-mono" id="numeroPuntos" th:field="*{numeroPuntos}" required onchange="generarFilasPuntos()" placeholder="Ej. 4" />
+                                <div class="help-numerica"><i class="bi bi-info-circle"></i> 2→Orden 1 · 3→Orden 2 · 4→Orden 3 · 5→Orden 4</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="xEvaluar" class="label-numerica"><i class="bi bi-bullseye"></i> Valor X a evaluar <span class="fw-normal text-capitalize" style="letter-spacing:0;color:#94a3b8">— opcional</span></label>
+                                <input type="number" step="any" class="form-control input-numerica font-mono" id="xEvaluar" th:field="*{xEvaluar}" placeholder="Ej. 2.5" />
+                                <div class="help-numerica"><i class="bi bi-lightbulb"></i> Evaluación del polinomio interpolante.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <label class="label-numerica mb-0"><i class="bi bi-table"></i> Puntos de entrada (X, Y)</label>
+                            <span class="badge-numerica" style="background:#fffbeb;color:#92400e;border:1px solid #fde68a">f(Xᵢ) requeridos</span>
+                        </div>
+                        <div class="table-numerica table-responsive" id="tablaPuntos">
+                            <table class="table mb-0 align-middle text-center">
+                                <thead>
                                 <tr>
-                                    <th>i</th>
+                                    <th style="width:12%">i</th>
                                     <th>Xi</th>
                                     <th>Yi = f(Xi)</th>
                                 </tr>
-                            </thead>
-                            <tbody id="tbodyPuntos">
-                                <!-- Filas dinámicas generadas mediante JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody id="tbodyPuntos">
+                                    <!-- Filas dinámicas generadas mediante JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="help-numerica mt-2"><i class="bi bi-lightbulb"></i> Ingresa todos los pares ordenados para construir la tabla de diferencias.</div>
 
-                    <div class="d-flex justify-content-end gap-2 mt-4">
-                        <a th:href="@{/home}" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-play-circle"></i> Resolver
-                        </button>
-                    </div>
-                </form>
+                        <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2">
+                            <a th:href="@{/home}" class="btn-numerica btn-ghost">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn-numerica btn-primary-numerica">
+                                <i class="bi bi-play-circle"></i> Resolver diferencias
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -68,12 +95,12 @@
                     const tr = document.createElement('tr');
 
                     tr.innerHTML = `
-                        <td class="fw-bold">${i}</td>
+                        <td class="fw-bold cell-accent">${i}</td>
                         <td>
-                            <input type="number" step="any" class="form-control" name="valoresX[${i}]" required placeholder="x${i}" />
+                            <input type="number" step="any" class="form-control input-numerica text-center font-mono" name="valoresX[${i}]" required placeholder="x${i}" />
                         </td>
                         <td>
-                            <input type="number" step="any" class="form-control" name="valoresY[${i}]" required placeholder="y${i}" />
+                            <input type="number" step="any" class="form-control input-numerica text-center font-mono" name="valoresY[${i}]" required placeholder="y${i}" />
                         </td>
                     `;
                     tbody.appendChild(tr);
@@ -81,6 +108,7 @@
             }
             document.addEventListener('DOMContentLoaded', generarFilasPuntos);
         </script>
-    </section>
+    </div>
+</section>
 </body>
 </html>

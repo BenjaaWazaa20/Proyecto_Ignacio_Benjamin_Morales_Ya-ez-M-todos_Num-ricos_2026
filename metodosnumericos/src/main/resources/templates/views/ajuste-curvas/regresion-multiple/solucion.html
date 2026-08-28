@@ -1,118 +1,152 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
 <head>
     <title>Solución - Regresión Lineal Múltiple</title>
 </head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-success text-white">
-                <h4 class="mb-0"><i class="bi bi-check-circle me-2"></i>Ecuación de Regresión Ajustada</h4>
-            </div>
-            <div class="card-body text-center">
-                <h3 class="display-6 text-primary fw-bold" th:text="${resultado.ecuacionResultante}">y = a0 + a1*x1 + a2*x2</h3>
-                <p class="text-muted">Modelo plano: y = a<sub>0</sub> + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub></p>
-            </div>
-        </div>
+<section class="container my-4">
 
-        <!-- Coeficientes y Estadísticos -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-6">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-dark text-white fw-bold">Coeficientes Calculados</div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Término Independiente (a<sub>0</sub>):</span>
-                                <strong th:text="${#numbers.formatDecimal(resultado.a0, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Coeficiente a<sub>1</sub> (X<sub>1</sub>):</span>
-                                <strong th:text="${#numbers.formatDecimal(resultado.a1, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Coeficiente a<sub>2</sub> (X<sub>2</sub>):</span>
-                                <strong th:text="${#numbers.formatDecimal(resultado.a2, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
-                            </li>
-                        </ul>
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 animate-in">
+        <div>
+            <span class="section-kicker mb-2"><i class="bi bi-grid-3x3-gap"></i> Ajuste de curvas · Multivariable</span>
+            <h2 class="section-title mb-1" style="font-size:1.65rem;">Regresión Lineal Múltiple</h2>
+            <p class="section-desc mb-0 small">Modelo plano y = a<sub>0</sub> + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub></p>
+        </div>
+        <span class="badge-numerica badge-success"><i class="bi bi-check-circle"></i> Ajuste múltiple</span>
+    </div>
+
+    <!-- Ecuación -->
+    <div class="result-highlight text-center py-4 mb-4 animate-in">
+        <span class="text-uppercase fw-bold d-block mb-2" style="font-size:.70rem;letter-spacing:.1em;color:var(--primary-600);">Ecuación de Regresión Ajustada</span>
+        <h3 class="font-mono fw-bold mb-2" style="font-size:1.35rem; word-break:break-word;" th:text="${resultado.ecuacionResultante}">y = a0 + a1*x1 + a2*x2</h3>
+        <span class="badge-numerica badge-primary">y = a<sub>0</sub> + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub></span>
+    </div>
+
+    <!-- Coeficientes y Estadísticos -->
+    <div class="row g-3 mb-4 animate-in">
+        <div class="col-md-6">
+            <div class="card-numerica h-100">
+                <div class="card-header-numerica">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="icon-bubble ib-indigo" style="width:36px;height:36px;"><i class="bi bi-sliders"></i></div>
+                        <h5 class="mb-0 fw-bold" style="font-size:.95rem;">Coeficientes Calculados</h5>
                     </div>
                 </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="d-flex align-items-center gap-2"><span class="badge-numerica badge-dark" style="min-width:42px;justify-content:center;">a<sub>0</sub></span> Término Independiente</span>
+                            <strong class="font-mono" style="color:var(--primary-600);" th:text="${#numbers.formatDecimal(resultado.a0, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="d-flex align-items-center gap-2"><span class="badge-numerica badge-primary" style="min-width:42px;justify-content:center;">a<sub>1</sub></span> Coeficiente X<sub>1</sub></span>
+                            <strong class="font-mono" th:text="${#numbers.formatDecimal(resultado.a1, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span class="d-flex align-items-center gap-2"><span class="badge-numerica badge-primary" style="min-width:42px;justify-content:center;">a<sub>2</sub></span> Coeficiente X<sub>2</sub></span>
+                            <strong class="font-mono" th:text="${#numbers.formatDecimal(resultado.a2, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
+                        </li>
+                    </ul>
+                </div>
             </div>
+        </div>
 
-            <div class="col-md-6">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-dark text-white fw-bold">Parámetros de Ajuste</div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Coeficiente de Determinación (R²):</span>
-                                <strong class="text-success" th:text="${#numbers.formatDecimal(resultado.coeficienteDeterminacionR2 * 100, 1, 'POINT', 2, 'POINT')} + '%'">0.00%</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Coeficiente de Correlación (R):</span>
-                                <strong th:text="${#numbers.formatDecimal(resultado.coeficienteCorrelacionR, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Error Estándar (S<sub>y/x1x2</sub>):</span>
-                                <strong class="text-danger" th:text="${#numbers.formatDecimal(resultado.error, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
-                            </li>
-                        </ul>
+        <div class="col-md-6">
+            <div class="card-numerica h-100">
+                <div class="card-header-numerica">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="icon-bubble ib-emerald" style="width:36px;height:36px;"><i class="bi bi-clipboard-data"></i></div>
+                        <h5 class="mb-0 fw-bold" style="font-size:.95rem;">Parámetros de Ajuste</h5>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Tabla de Sumatorias -->
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-secondary text-white fw-bold">Resumen de Sumatorias</div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered text-center align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>ΣX1</th>
-                                <th>ΣX2</th>
-                                <th>ΣY</th>
-                                <th>ΣX1²</th>
-                                <th>ΣX2²</th>
-                                <th>ΣX1X2</th>
-                                <th>ΣX1Y</th>
-                                <th>ΣX2Y</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX1, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX2, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaY, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX1Cuadrado, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX2Cuadrado, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX1X2, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX1Y, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                                <td th:text="${#numbers.formatDecimal(resultado.sumatoriaX2Y, 1, 'POINT', 4, 'POINT')}">0.0000</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span>R² · Determinación</span>
+                            <strong class="badge-numerica badge-success" th:text="${#numbers.formatDecimal(resultado.coeficienteDeterminacionR2 * 100, 1, 'POINT', 2, 'POINT')} + '%'">0.00%</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span>R · Correlación</span>
+                            <strong class="font-mono" th:text="${#numbers.formatDecimal(resultado.coeficienteCorrelacionR, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <span>Error Estándar S<sub>y/x1x2</sub></span>
+                            <strong class="font-mono text-danger" th:text="${#numbers.formatDecimal(resultado.error, 1, 'POINT', 6, 'POINT')}">0.000000</strong>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Pasos del Desarrollo -->
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-dark text-white fw-bold">Desarrollo Matemático</div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item font-monospace" th:each="paso : ${resultado.pasosDesarrollo}" th:text="${paso}">Paso...</li>
-                </ul>
+    <!-- Tabla Sumatorias -->
+    <div class="card-numerica mb-4 animate-in">
+        <div class="card-header-numerica">
+            <div class="d-flex align-items-center gap-2">
+                <div class="icon-bubble ib-slate" style="width:36px;height:36px;"><i class="bi bi-table"></i></div>
+                <h5 class="mb-0 fw-bold" style="font-size:.95rem;">Resumen de Sumatorias</h5>
             </div>
         </div>
-
-        <div class="d-flex justify-content-start">
-            <a th:href="@{/ajuste-curvas/regresion-multiple}" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-left"></i> Regresar al Formulario 
-            </a>
+        <div class="p-3">
+            <div class="table-responsive">
+                <table class="table table-numerica text-center align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>ΣX1</th>
+                        <th>ΣX2</th>
+                        <th>ΣY</th>
+                        <th>ΣX1²</th>
+                        <th>ΣX2²</th>
+                        <th>ΣX1X2</th>
+                        <th>ΣX1Y</th>
+                        <th>ΣX2Y</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="font-mono" th:text="${#numbers.formatDecimal(resultado.sumatoriaX1, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono" th:text="${#numbers.formatDecimal(resultado.sumatoriaX2, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono" th:text="${#numbers.formatDecimal(resultado.sumatoriaY, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono" th:text="${#numbers.formatDecimal(resultado.sumatoriaX1Cuadrado, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono" th:text="${#numbers.formatDecimal(resultado.sumatoriaX2Cuadrado, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono" th:text="${#numbers.formatDecimal(resultado.sumatoriaX1X2, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono cell-accent" th:text="${#numbers.formatDecimal(resultado.sumatoriaX1Y, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                        <td class="font-mono cell-accent" th:text="${#numbers.formatDecimal(resultado.sumatoriaX2Y, 1, 'POINT', 4, 'POINT')}">0.0000</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Pasos -->
+    <div class="card-numerica mb-4 animate-in">
+        <div class="card-header-numerica">
+            <div class="d-flex align-items-center gap-2">
+                <div class="icon-bubble ib-violet" style="width:36px;height:36px;"><i class="bi bi-journal-code"></i></div>
+                <h5 class="mb-0 fw-bold" style="font-size:.95rem;">Desarrollo Matemático</h5>
+            </div>
+            <span class="badge-numerica badge-primary" th:text="${#lists.size(resultado.pasosDesarrollo)} + ' pasos'"></span>
+        </div>
+        <div class="card-body p-0">
+            <div class="code-block m-3">
+                <div th:each="paso,iter : ${resultado.pasosDesarrollo}" class="d-flex gap-2 py-1" style="border-bottom:1px solid rgba(255,255,255,.06);">
+                    <span class="text-white-50" style="min-width:28px;" th:text="${iter.index + 1} + '.'"></span>
+                    <span th:text="${paso}">Paso...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <a th:href="@{/ajuste-curvas/regresion-multiple}" class="btn-numerica btn-ghost">
+            <i class="bi bi-arrow-left"></i> Regresar al Formulario
+        </a>
+        <a th:href="@{/}" class="btn-numerica btn-primary-numerica ms-auto">
+            <i class="bi bi-house"></i> Inicio
+        </a>
+    </div>
+
+</section>
 </body>
 </html>

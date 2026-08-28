@@ -2,24 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
 <head><title>Solución - Integración Múltiple</title></head>
 <body>
-    <section class="container my-4">
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-success text-white"><h4 class="mb-0">Resultados - Integral Doble</h4></div>
-            <div class="card-body text-center row">
-                <div class="col-md-4"><h5>Integral Exacta</h5><p class="fs-4 text-primary" th:text="${respuesta.integralExacta}"></p></div>
-                <div class="col-md-4"><h5>Integral Aproximada</h5><p class="fs-4 text-success fw-bold" th:text="${respuesta.integralAproximada}"></p></div>
-                <div class="col-md-4"><h5>Error Relativo (%)</h5><p class="fs-4 text-danger" th:text="${#numbers.formatDecimal(respuesta.errorRelativo, 1, 4)} + '%'"></p></div>
+<section class="container my-4">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 animate-in">
+        <div>
+            <span class="section-kicker mb-2"><i class="bi bi-layers"></i> Integración · Múltiple</span>
+            <h2 class="section-title mb-1" style="font-size:1.65rem;">Integral Doble</h2>
+            <p class="section-desc mb-0 small">Integración numérica en dos variables — aproximación y error relativo.</p>
+        </div>
+        <span class="badge-numerica badge-success"><i class="bi bi-check-circle"></i> Calculado</span>
+    </div>
+
+    <!-- Métricas -->
+    <div class="row g-3 mb-4 animate-in">
+        <div class="col-md-4">
+            <div class="card-numerica h-100 text-center p-4">
+                <div class="icon-bubble ib-indigo mx-auto mb-3"><i class="bi bi-bullseye"></i></div>
+                <div class="label-numerica justify-content-center">Integral Exacta</div>
+                <div class="font-mono fw-bold mt-2" style="font-size:1.35rem; word-break:break-word;" th:text="${respuesta.integralExacta}"></div>
+                <span class="badge-numerica badge-primary mt-2 mx-auto">Referencia analítica</span>
             </div>
         </div>
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-dark text-white">Desarrollo del Método</div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" th:each="paso : ${respuesta.pasosDesarrollo}" th:text="${paso}"></li>
-                </ul>
+        <div class="col-md-4">
+            <div class="result-highlight h-100 text-center d-flex flex-column justify-content-center p-4">
+                <div class="icon-bubble ib-emerald mx-auto mb-3"><i class="bi bi-check2-circle"></i></div>
+                <div class="label-numerica justify-content-center" style="color:var(--primary-600);">Integral Aproximada</div>
+                <div class="font-mono fw-bold mt-2" style="font-size:1.45rem; word-break:break-word;" th:text="${respuesta.integralAproximada}"></div>
+                <span class="badge-numerica badge-success mt-2 mx-auto">Resultado numérico</span>
             </div>
         </div>
-        <div class="text-end"><a th:href="@{/integracion/multiple}" class="btn btn-primary">Regresar</a></div>
-    </section>
+        <div class="col-md-4">
+            <div class="card-numerica h-100 text-center p-4" style="border-color:rgba(244,63,94,.14);">
+                <div class="icon-bubble ib-rose mx-auto mb-3"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="label-numerica justify-content-center">Error Relativo (%)</div>
+                <div class="font-mono fw-bold mt-2" style="font-size:1.35rem; color:var(--rose);" th:text="${#numbers.formatDecimal(respuesta.errorRelativo, 1, 4)} + '%'"></div>
+                <span class="badge-numerica mt-2 mx-auto" th:classappend="${respuesta.errorRelativo < 1} ? 'badge-success' : 'badge-primary'" th:text="${respuesta.errorRelativo < 1} ? 'Alta precisión' : 'Verificar tolerancia'"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desarrollo -->
+    <div class="card-numerica mb-4 animate-in">
+        <div class="card-header-numerica">
+            <div class="d-flex align-items-center gap-2">
+                <div class="icon-bubble ib-slate" style="width:36px;height:36px;"><i class="bi bi-list-ol"></i></div>
+                <h5 class="mb-0 fw-bold" style="font-size:.95rem;">Desarrollo del Método</h5>
+            </div>
+            <span class="badge-numerica badge-dark" th:text="${#lists.size(respuesta.pasosDesarrollo)} + ' pasos'"></span>
+        </div>
+        <div class="card-body p-0">
+            <div class="code-block m-3">
+                <div th:each="paso,iter : ${respuesta.pasosDesarrollo}" class="d-flex gap-2 py-1" style="border-bottom:1px solid rgba(255,255,255,.06);">
+                    <span class="text-white-50" style="min-width:28px;" th:text="${iter.index + 1} + '.'"></span>
+                    <span th:text="${paso}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <a th:href="@{/integracion/multiple}" class="btn-numerica btn-ghost">
+            <i class="bi bi-arrow-left"></i> Regresar
+        </a>
+        <a th:href="@{/}" class="btn-numerica btn-primary-numerica ms-auto">
+            <i class="bi bi-house"></i> Inicio
+        </a>
+    </div>
+
+</section>
 </body>
 </html>

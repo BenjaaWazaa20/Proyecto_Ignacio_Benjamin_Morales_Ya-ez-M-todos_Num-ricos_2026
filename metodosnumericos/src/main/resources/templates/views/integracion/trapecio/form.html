@@ -5,36 +5,72 @@
     <title>Regla del Trapecio</title>
 </head>
 <body>
-<section class="container mt-4">
-    <h2>Integración Numérica - Regla del Trapecio</h2>
-    <hr/>
+<section class="container my-4 animate-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a th:href="@{/integracion}" class="btn-numerica btn-ghost py-2 px-3" style="text-decoration:none;font-size:.82rem">
+                    <i class="bi bi-arrow-left"></i> Integración
+                </a>
+                <span class="text-muted" style="font-size:.82rem">/</span>
+                <span class="badge-numerica badge-dark" style="font-size:.68rem">Trapecio</span>
+            </div>
 
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div class="form-card">
+                <div class="form-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-bubble ib-cyan" style="width:48px;height:48px;border-radius:14px;font-size:1.35rem">
+                            <i class="bi bi-bounding-box"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-0" style="font-size:1.42rem">Regla del Trapecio</h3>
+                            <p class="mb-0">Integración numérica compuesta con n segmentos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-body">
+                    <div th:if="${error}" class="alert-numerica alert-danger-numerica mb-4" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill fs-5 flex-shrink-0"></i>
+                        <div>
+                            <strong class="d-block" style="font-size:.85rem">Error al procesar</strong>
+                            <span th:text="${error}">Error</span>
+                        </div>
+                    </div>
 
-    <form th:action="@{/integracion/trapecio}" th:object="${trapecioRequest}" method="post" class="card p-4 shadow-sm">
-        <div class="mb-3">
-            <label for="fx" class="form-label">Función f(x):</label>
-            <input type="text" id="fx" th:field="*{fx}" class="form-control" placeholder="Ej: x^2, Sin(x)" required />
-        </div>
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <label for="a" class="form-label">Límite Inferior (a):</label>
-                <input type="number" step="any" id="a" th:field="*{a}" class="form-control" required />
+                    <form th:action="@{/integracion/trapecio}" th:object="${trapecioRequest}" method="post">
+                        <div class="mb-3">
+                            <label for="fx" class="label-numerica"><i class="bi bi-braces"></i> Función f(x)</label>
+                            <input type="text" id="fx" th:field="*{fx}" class="form-control input-numerica font-mono" placeholder="Ej: x^2, Sin(x)" required />
+                            <div class="help-numerica"><i class="bi bi-info-circle"></i> Usa x como variable. Soporta Sin, Cos, Exp, ^.</div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="a" class="label-numerica"><i class="bi bi-arrow-bar-left"></i> Límite inferior (a)</label>
+                                <input type="number" step="any" id="a" th:field="*{a}" class="form-control input-numerica font-mono text-center" required placeholder="a" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="b" class="label-numerica"><i class="bi bi-arrow-bar-right"></i> Límite superior (b)</label>
+                                <input type="number" step="any" id="b" th:field="*{b}" class="form-control input-numerica font-mono text-center" required placeholder="b" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="n" class="label-numerica"><i class="bi bi-segmented-nav"></i> Segmentos (n)</label>
+                                <input type="number" id="n" th:field="*{n}" class="form-control input-numerica font-mono text-center" min="1" required placeholder="Ej. 4" />
+                                <div class="help-numerica"><i class="bi bi-lightbulb"></i> n ≥ 1 entero.</div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2">
+                            <a th:href="@{/integracion}" class="btn-numerica btn-ghost">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn-numerica btn-primary-numerica">
+                                <i class="bi bi-calculator"></i> Resolver integral
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <label for="b" class="form-label">Límite Superior (b):</label>
-                <input type="number" step="any" id="b" th:field="*{b}" class="form-control" required />
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="n" class="form-label">Número de Segmentos (n):</label>
-                <input type="number" id="n" th:field="*{n}" class="form-control" min="1" required />
-            </div>
         </div>
-        <div class="d-flex gap-2 mt-3">
-            <button type="submit" class="btn btn-primary">Resolver</button>
-            <a th:href="@{/integracion}" class="btn btn-secondary">Cancelar</a>
-        </div>
-    </form>
+    </div>
 </section>
 </body>
 </html>

@@ -1,92 +1,140 @@
 <!doctype html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layout/base :: layout(~{::title}, ~{::section})}"
->
-  <head>
-    <title>Unidad II.- Raíces de Ecuaciones</title>
-  </head>
-  <body>
-    <section class="container my-4">
-      <div class="card shadow-sm border-0">
-        <div class="card-header bg-dark text-white">
-          <h3 class="mb-0">
-            <i class="bi bi-diagram-3-fill me-2"></i>Unidad II.- Raíces de
-            Ecuaciones
-          </h3>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head><title>Métodos Numéricos — ITSES</title></head>
+<body>
+<section class="container">
+  <!-- Hero minimal -->
+  <div class="hero mb-4">
+    <div class="row align-items-center g-3">
+      <div class="col-lg-8">
+        <div class="hero-kicker mb-2"><i class="bi bi-cpu"></i> Plataforma 2026</div>
+        <h1 class="mb-2">Métodos Numéricos <span>— cálculo preciso</span></h1>
+        <p class="mb-3">Raíces, sistemas lineales y no lineales, ajuste de curvas, derivación e integración en una interfaz limpia y rápida. Elige una unidad para comenzar.</p>
+        <div class="d-flex flex-wrap gap-2">
+          <a th:href="@{/raices}" class="btn btn-numerica btn-primary-numerica"><i class="bi bi-arrow-right"></i> Explorar métodos</a>
+          <a href="#unidades" class="btn btn-numerica btn-ghost">Ver unidades</a>
         </div>
-        <div class="card-body">
-          <p class="lead text-muted">
-            Cálculo de raíces para funciones de polinomios exponenciales
-            utilizando distintos métodos numéricos para su obtención.
-          </p>
-          <hr />
+      </div>
+      <div class="col-lg-4 d-none d-lg-block">
+        <div class="p-3 rounded-3 font-mono small" style="background:var(--surface-2); border:1px solid var(--line);">
+          <div style="color:var(--muted); font-size:.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;" class="mb-2">Ejemplo — Bisección</div>
+          <div>f(x) = x³ − 2x − 5</div>
+          <div class="mt-1">xl = 1.0 · xu = 3.0 · ε = 0.001</div>
+          <div class="mt-2 pt-2" style="border-top:1px solid var(--line);"><strong>xr ≈ 2.094</strong> <span style="color:var(--muted);">— 12 iter.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div class="row g-4 mt-2">
-            <!-- Métodos Cerrados -->
-            <div class="col-md-6">
-              <div class="card h-100 border-primary shadow-sm">
-                <div class="card-header bg-primary text-white font-weight-bold">
-                  <i class="bi bi-box-seam me-2"></i>Métodos Cerrados
-                </div>
-                <div class="list-group list-group-flush">
-                  <a
-                    th:href="@{/raices/biseccion}"
-                    class="list-group-item list-group-item-action d-flex align-items-center"
-                  >
-                    <i class="bi bi-calculator me-2 text-primary"></i> Método de
-                    Bisección
-                  </a>
-                  <a
-                    th:href="@{/raices/reglafalsa}"
-                    class="list-group-item list-group-item-action d-flex align-items-center"
-                  >
-                    <i class="bi bi-calculator-fill me-2 text-primary"></i>
-                    Método de Regla Falsa
-                  </a>
-                </div>
-              </div>
+  <!-- Unidades — estilo parecido al original pero minimal -->
+  <div id="unidades" class="card-numerica">
+    <div class="card-header-numerica">
+      <div class="d-flex align-items-center gap-2">
+        <div class="icon-bubble ib-slate"><i class="bi bi-layers"></i></div>
+        <div>
+          <h5 class="mb-0">Unidades disponibles</h5>
+          <small style="color:var(--muted);">Selecciona un método para resolver</small>
+        </div>
+      </div>
+      <span class="badge-numerica badge-primary d-none d-sm-inline-flex">6 unidades · 20+ métodos</span>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <!-- Raíces -->
+        <div class="col-md-6 col-xl-4">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line); background:#ffffff;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-bullseye" style="color:var(--ink);"></i>
+              <strong style="font-size:.9rem;">Raíces de Ecuaciones</strong>
+              <span class="badge-numerica badge-primary ms-auto" style="font-size:.62rem;">Unidad II</span>
             </div>
-
-            <!-- Métodos Abiertos -->
-            <div class="col-md-6">
-              <div class="card h-100 border-success shadow-sm">
-                <div
-                  class="card-header bg-success text-white font-weight-bold"
-                >
-                  <i class="bi bi-unlock me-2"></i>Métodos Abiertos
-                </div>
-                <div class="list-group list-group-flush">
-                  <a
-                    th:href="@{/raices/puntofijo}"
-                    class="list-group-item list-group-item-action d-flex align-items-center"
-                  >
-                    <i class="bi bi-arrow-repeat me-2 text-secondary"></i>
-                    Método de Iteración de Punto Fijo
-                  </a>
-                  <a
-                    th:href="@{/raices/newtonraphson}"
-                    class="list-group-item list-group-item-action d-flex align-items-center gap-2"
-                  >
-                    <i class="bi bi-graph-up-arrow"></i>
-                    <span>Método de Newton-Raphson</span>
-                  </a>
-                  <a
-                    th:href="@{/raices/secante}"
-                    class="list-group-item list-group-item-action d-flex align-items-center"
-                  >
-                    <i class="bi bi-slash-lg me-2 text-secondary"></i> Método de
-                    la Secante
-                  </a>
-                  <a th:href="@{/raices/secante-modificada}" class="list-group-item list-group-item-action d-flex align-items-center">
-            <i class="bi bi-calculator me-2"></i>Método de la Secante Modificado
-        </a>
-                </div>
-              </div>
+            <p class="small mb-3" style="color:var(--muted);">Cerrados y abiertos para f(x)=0.</p>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/raices/biseccion}" class="method-link"><i class="bi bi-scissors"></i> Bisección <i class="bi bi-chevron-right arrow" style="font-size:.8rem;"></i></a>
+              <a th:href="@{/raices/reglafalsa}" class="method-link"><i class="bi bi-rulers"></i> Regla Falsa <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/raices/newtonraphson}" class="method-link"><i class="bi bi-graph-up-arrow"></i> Newton-Raphson <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/raices}" class="small fw-semibold mt-1" style="color:var(--ink); text-decoration:none;">Ver todos →</a>
+            </div>
+          </div>
+        </div>
+        <!-- Lineales -->
+        <div class="col-md-6 col-xl-4">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line); background:#ffffff;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-grid-3x3-gap" style="color:var(--ink);"></i>
+              <strong style="font-size:.9rem;">Sistemas Lineales</strong>
+              <span class="badge-numerica badge-primary ms-auto" style="font-size:.62rem;">Unidad III</span>
+            </div>
+            <p class="small mb-3" style="color:var(--muted);">Directos e iterativos para A·x=B.</p>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/sistemas-lineales/eliminacion-gaussiana}" class="method-link"><i class="bi bi-layers"></i> Eliminación Gaussiana <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/sistemas-lineales/gauss-jordan}" class="method-link"><i class="bi bi-grid-3x3"></i> Gauss-Jordan <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/sistemas-lineales/jacobi}" class="method-link"><i class="bi bi-arrow-repeat"></i> Jacobi / Gauss-Seidel <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/sistemas-lineales}" class="small fw-semibold mt-1" style="color:var(--ink); text-decoration:none;">Explorar →</a>
+            </div>
+          </div>
+        </div>
+        <!-- No lineales -->
+        <div class="col-md-6 col-xl-4">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line); background:#ffffff;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-diagram-3" style="color:var(--ink);"></i>
+              <strong style="font-size:.9rem;">Sistemas No Lineales</strong>
+              <span class="badge-numerica badge-primary ms-auto" style="font-size:.62rem;">2×2</span>
+            </div>
+            <p class="small mb-3" style="color:var(--muted);">Para f₁(x,y)=0 y f₂(x,y)=0.</p>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/sistemas-no-lineales/punto-fijo}" class="method-link"><i class="bi bi-infinity"></i> Punto Fijo <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/sistemas-no-lineales/newton-raphson}" class="method-link"><i class="bi bi-activity"></i> Newton-Raphson <i class="bi bi-chevron-right arrow"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- Curvas -->
+        <div class="col-md-6 col-xl-4">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line); background:#ffffff;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-bezier2" style="color:var(--ink);"></i>
+              <strong style="font-size:.9rem;">Ajuste de Curvas</strong>
+              <span class="badge-numerica badge-primary ms-auto" style="font-size:.62rem;">Unidad IV</span>
+            </div>
+            <p class="small mb-3" style="color:var(--muted);">Regresión e interpolación.</p>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/ajuste-curvas/regresion-lineal}" class="method-link"><i class="bi bi-graph-up"></i> Regresión Lineal <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/ajuste-curvas/lagrange}" class="method-link"><i class="bi bi-braces"></i> Lagrange <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/ajuste-curvas}" class="small fw-semibold mt-1" style="color:var(--ink); text-decoration:none;">Ver ajuste →</a>
+            </div>
+          </div>
+        </div>
+        <!-- Derivación -->
+        <div class="col-md-6 col-xl-4">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line); background:#ffffff;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-activity" style="color:var(--ink);"></i>
+              <strong style="font-size:.9rem;">Derivación</strong>
+              <span class="badge-numerica badge-primary ms-auto" style="font-size:.62rem;">Unidad V</span>
+            </div>
+            <p class="small mb-3" style="color:var(--muted);">Diferencias finitas 1º a 4º orden.</p>
+            <a th:href="@{/derivacion/diferenciacion}" class="method-link"><i class="bi bi-layers-half"></i> Esquemas de diferencias <i class="bi bi-chevron-right arrow"></i></a>
+          </div>
+        </div>
+        <!-- Integración -->
+        <div class="col-md-6 col-xl-4">
+          <div class="p-3 rounded-3 h-100" style="border:1px solid var(--line); background:#ffffff;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-integral" style="color:var(--ink);"></i>
+              <strong style="font-size:.9rem;">Integración</strong>
+              <span class="badge-numerica badge-primary ms-auto" style="font-size:.62rem;">Unidad VI</span>
+            </div>
+            <p class="small mb-3" style="color:var(--muted);">Trapecio y Simpson.</p>
+            <div class="d-flex flex-column gap-2">
+              <a th:href="@{/integracion/trapecio}" class="method-link"><i class="bi bi-bounding-box"></i> Trapecio <i class="bi bi-chevron-right arrow"></i></a>
+              <a th:href="@{/integracion/simpson13}" class="method-link"><i class="bi bi-paragraph"></i> Simpson 1/3 · 3/8 <i class="bi bi-chevron-right arrow"></i></a>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </body>
+    </div>
+  </div>
+</section>
+</body>
 </html>
